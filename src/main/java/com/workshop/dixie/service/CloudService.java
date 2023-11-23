@@ -7,13 +7,13 @@ import java.util.List;
 import java.util.UUID;
 
 public interface CloudService {
-    ResponseEntity<String> uploadFile(UserFile userFile);
+    String uploadFile(UserFile userFile);
 
-    ResponseEntity<String> deleteFile(UUID fileId);
+    String deleteFile(UUID fileId);
 
     UserFile downloadFile(UUID fileId);
 
-    ResponseEntity<String> editFileTitle(UUID fileId);
+    String editFileTitle(UUID fileId);
 
     List<UserFile> getAllFiles();
 }
