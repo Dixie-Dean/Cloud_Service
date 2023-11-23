@@ -1,7 +1,6 @@
 package com.workshop.dixie.service;
 
 import com.workshop.dixie.entity.UserFile;
-import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 import java.util.UUID;
