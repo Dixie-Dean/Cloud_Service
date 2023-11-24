@@ -6,19 +6,22 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.UUID;
-
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(schema = "cloud_schema", name = "files")
 @Entity
 public class UserFile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private UUID fileId;
+    private long fileId;
 
-    @Column(nullable = false)
+    @Column(name = "file_name", nullable = false)
     private String fileName;
+
+    @ManyToOne
+    @JoinColumn(name = "cloud_user_id", referencedColumnName = "user_id")
+    private CloudUser cloudUser;
 }

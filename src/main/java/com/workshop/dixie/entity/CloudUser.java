@@ -12,7 +12,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(schema = "users_schema")
+@Table(schema = "cloud_schema", name = "users")
 @Entity
 public class CloudUser {
 
@@ -20,19 +20,19 @@ public class CloudUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long userId;
 
-    @Column(nullable = false)
+    @Column(name = "username", nullable = false)
     private String username;
 
-    @Column(nullable = false)
+    @Column(name = "surname", nullable = false)
     private String surname;
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "email", nullable = false)
     private String email;
 
-    @Column(nullable = false)
+    @Column(name = "password", nullable = false)
     private String password;
 
-    @OneToMany
-    private List<UserFile> userFile;
+    @OneToMany(mappedBy = "cloudUser")
+    private List<UserFile> userFiles;
 
 }
