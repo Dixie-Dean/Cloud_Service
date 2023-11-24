@@ -5,7 +5,6 @@ import com.workshop.dixie.repository.CloudRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class CloudServiceImpl implements CloudService {
@@ -22,17 +21,17 @@ public class CloudServiceImpl implements CloudService {
     }
 
     @Override
-    public String deleteFile(UUID fileId) {
+    public String deleteFile(String fileName) {
         return null;
     }
 
     @Override
-    public UserFile downloadFile(UUID fileId) {
+    public UserFile downloadFile(String fileName) {
         return null;
     }
 
     @Override
-    public String editFileTitle(UUID fileId) {
+    public String editFileTitle(String fileName) {
         return null;
     }
 

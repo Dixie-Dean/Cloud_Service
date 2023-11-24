@@ -27,35 +27,35 @@ public class CloudServiceTest {
 
     @Test
     public void deleteFileOK() {
-        Assertions.assertEquals(service.deleteFile(file.getFileId()), "File deleted successfully!");
+        Assertions.assertEquals(service.deleteFile(file.getFileName()), "File deleted successfully!");
     }
 
     @Test
     public void deleteFileCallRepositoryMethod() {
-        service.deleteFile(file.getFileId());
-        Mockito.verify(repository, Mockito.atLeastOnce()).deleteFile(file.getFileId());
+        service.deleteFile(file.getFileName());
+        Mockito.verify(repository, Mockito.atLeastOnce()).deleteFile(file.getFileName());
     }
 
     @Test
     public void downloadFileOK() {
-        Assertions.assertEquals(service.downloadFile(file.getFileId()), file);
+        Assertions.assertEquals(service.downloadFile(file.getFileName()), file);
     }
 
     @Test
     public void downloadFileCallRepositoryMethod() {
-        service.downloadFile(file.getFileId());
-        Mockito.verify(repository, Mockito.atLeastOnce()).downloadFile(file.getFileId());
+        service.downloadFile(file.getFileName());
+        Mockito.verify(repository, Mockito.atLeastOnce()).downloadFile(file.getFileName());
     }
 
     @Test
     public void editFileTitleOK() {
-        Assertions.assertEquals(service.editFileTitle(file.getFileId()), "File's title edited successfully!");
+        Assertions.assertEquals(service.editFileTitle(file.getFileName()), "File's title edited successfully!");
     }
 
     @Test
     public void editFileTitleCallRepositoryMethod() {
-        service.editFileTitle(file.getFileId());
-        Mockito.verify(repository, Mockito.atLeastOnce()).editFileTitle(file.getFileId());
+        service.editFileTitle(file.getFileName());
+        Mockito.verify(repository, Mockito.atLeastOnce()).editFileTitle(file.getFileName());
     }
 
     @Test

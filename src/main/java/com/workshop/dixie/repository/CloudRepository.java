@@ -4,7 +4,6 @@ import com.workshop.dixie.entity.UserFile;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.UUID;
 
 @Repository
 public class CloudRepository {
@@ -13,15 +12,15 @@ public class CloudRepository {
         return null;
     }
 
-    public String deleteFile(UUID fileId) {
+    public String deleteFile(String fileName) {
         return null;
     }
 
-    public UserFile downloadFile(UUID fileId) {
+    public UserFile downloadFile(String fileName) {
         return null;
     }
 
-    public String editFileTitle(UUID fileId) {
+    public String editFileTitle(String fileName) {
         return null;
     }
 

@@ -3,16 +3,15 @@ package com.workshop.dixie.service;
 import com.workshop.dixie.entity.UserFile;
 
 import java.util.List;
-import java.util.UUID;
 
 public interface CloudService {
     String uploadFile(UserFile userFile);
 
-    String deleteFile(UUID fileId);
+    String deleteFile(String fileName);
 
-    UserFile downloadFile(UUID fileId);
+    UserFile downloadFile(String fileName);
 
-    String editFileTitle(UUID fileId);
+    String editFileTitle(String fileName);
 
     List<UserFile> getAllFiles();
 }

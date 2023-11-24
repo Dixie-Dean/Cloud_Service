@@ -20,5 +20,5 @@ public class UserFile {
     private UUID fileId;
 
     @Column(nullable = false)
-    private String title;
+    private String fileName;
 }
