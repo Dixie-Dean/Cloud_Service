@@ -24,7 +24,7 @@ public class CloudRepository {
         return null;
     }
 
-    public List<String> getAllFiles() {
+    public List<UserFile> getAllFiles(int numberRequestedItems) {
         return null;
     }
 }

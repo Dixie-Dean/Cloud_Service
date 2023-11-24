@@ -17,26 +17,26 @@ public class CloudServiceImpl implements CloudService {
 
     @Override
     public String uploadFile(UserFile userFile) {
-        return null;
+        return repository.uploadFile(userFile);
     }
 
     @Override
     public String deleteFile(String fileName) {
-        return null;
+        return repository.deleteFile(fileName);
     }
 
     @Override
     public UserFile downloadFile(String fileName) {
-        return null;
+        return repository.downloadFile(fileName);
     }
 
     @Override
     public String editFileTitle(String fileName) {
-        return null;
+        return repository.editFileTitle(fileName);
     }
 
     @Override
-    public List<UserFile> getAllFiles() {
+    public List<UserFile> getAllFiles(int numberRequestedItems) {
         return null;
     }
 }

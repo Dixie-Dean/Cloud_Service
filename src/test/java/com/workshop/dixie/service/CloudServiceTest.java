@@ -60,13 +60,13 @@ public class CloudServiceTest {
 
     @Test
     public void getAllFilesOK() {
-        Assertions.assertTrue(service.getAllFiles().contains(file));
+        Assertions.assertTrue(service.getAllFiles(1).contains(file));
     }
 
     @Test
     public void getAllFilesCallRepositoryMethod() {
-        service.getAllFiles();
-        Mockito.verify(repository, Mockito.atLeastOnce()).getAllFiles();
+        service.getAllFiles(1);
+        Mockito.verify(repository, Mockito.atLeastOnce()).getAllFiles(1);
     }
 
 }

@@ -13,5 +13,5 @@ public interface CloudService {
 
     String editFileTitle(String fileName);
 
-    List<UserFile> getAllFiles();
+    List<UserFile> getAllFiles(int numberRequestedItems);
 }
