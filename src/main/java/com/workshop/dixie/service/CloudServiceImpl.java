@@ -5,6 +5,7 @@ import com.workshop.dixie.repository.CloudRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CloudServiceImpl implements CloudService {
@@ -16,27 +17,27 @@ public class CloudServiceImpl implements CloudService {
     }
 
     @Override
-    public String uploadFile(UserFile userFile) {
+    public Optional<String> uploadFile(UserFile userFile) {
         return repository.uploadFile(userFile);
     }
 
     @Override
-    public String deleteFile(String fileName) {
-        return repository.deleteFile(fileName);
+    public Optional<String> deleteFile(String fileName) {
+        return Optional.empty();
     }
 
     @Override
-    public UserFile downloadFile(String fileName) {
-        return repository.downloadFile(fileName);
+    public Optional<UserFile> downloadFile(String fileName) {
+        return Optional.empty();
     }
 
     @Override
-    public String editFileTitle(String fileName) {
-        return repository.editFileTitle(fileName);
+    public Optional<String> editFileName(String fileName, String newFileName) {
+        return Optional.empty();
     }
 
     @Override
-    public List<UserFile> getAllFiles(int numberRequestedItems) {
+    public List<UserFile> getAllFiles(int limit) {
         return null;
     }
 }

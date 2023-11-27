@@ -12,7 +12,7 @@ public interface CloudService {
 
     Optional<UserFile> downloadFile(String fileName);
 
-    Optional<String> editFileTitle(String fileName);
+    Optional<String> editFileName(String oldFileName, String newFileName);
 
-    List<UserFile> getAllFiles(int numberRequestedItems);
+    List<UserFile> getAllFiles(int limit);
 }
