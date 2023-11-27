@@ -18,6 +18,7 @@ public class CloudUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private long userId;
 
     @Column(name = "username", nullable = false)
