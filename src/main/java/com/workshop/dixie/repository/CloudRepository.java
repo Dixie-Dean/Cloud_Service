@@ -23,8 +23,8 @@ public interface CloudRepository extends PagingAndSortingRepository<CloudUser, L
     Optional<UserFile> downloadFile(@Param("file_name") String fileName);
 
     @Query(value = "update cloud_schema.files set file_name = :new_file_name where file_name = :old_file_name", nativeQuery = true)
-    public String editFileName(@Param("old_file_name") String oldFileName, @Param("new_file_name") String newFileName);
+    Optional<String> editFileName(@Param("old_file_name") String oldFileName, @Param("new_file_name") String newFileName);
 
     @Query(value = "select * from cloud_schema.files order by cloud_user_id limit :limit", nativeQuery = true)
-    public List<UserFile> getAllFiles(@Param("limit") int limit);
+    List<UserFile> getAllFiles(@Param("limit") int limit);
 }
