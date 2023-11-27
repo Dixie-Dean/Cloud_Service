@@ -23,21 +23,21 @@ public class CloudServiceImpl implements CloudService {
 
     @Override
     public Optional<String> deleteFile(String fileName) {
-        return Optional.empty();
+        return repository.deleteFile(fileName);
     }
 
     @Override
     public Optional<UserFile> downloadFile(String fileName) {
-        return Optional.empty();
+        return repository.downloadFile(fileName);
     }
 
     @Override
-    public Optional<String> editFileName(String fileName, String newFileName) {
-        return Optional.empty();
+    public Optional<String> editFileName(String oldFileName, String newFileName) {
+        return repository.editFileName(oldFileName, newFileName);
     }
 
     @Override
     public List<UserFile> getAllFiles(int limit) {
-        return null;
+        return repository.getAllFiles(limit);
     }
 }
