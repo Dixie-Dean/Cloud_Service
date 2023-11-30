@@ -6,8 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter
 @Setter
 @NoArgsConstructor
@@ -32,8 +30,5 @@ public class CloudUser {
 
     @Column(name = "password", nullable = false)
     private String password;
-
-    @OneToMany(mappedBy = "cloudUser")
-    private List<UserFile> userFiles;
 
 }

@@ -10,7 +10,7 @@ public interface CloudService {
 
     Optional<String> deleteFile(String fileName);
 
-    Optional<UserFile> downloadFile(String fileName);
+    Optional<UserFile> downloadFile(String filename);
 
     Optional<String> editFileName(String oldFileName, String newFileName);
 

@@ -27,8 +27,8 @@ public class CloudServiceImpl implements CloudService {
     }
 
     @Override
-    public Optional<UserFile> downloadFile(String fileName) {
-        return repository.downloadFile(fileName);
+    public Optional<UserFile> downloadFile(String filename) {
+        return repository.downloadFile(filename);
     }
 
     @Override

@@ -28,8 +28,8 @@ public class CloudController {
     }
 
     @GetMapping("/download")
-    public Optional<UserFile> downloadFile(@RequestParam String fileName) {
-        return cloudService.downloadFile(fileName);
+    public Optional<UserFile> downloadFile(@RequestParam String filename) {
+        return cloudService.downloadFile(filename);
     }
 
     @PutMapping("/edit")

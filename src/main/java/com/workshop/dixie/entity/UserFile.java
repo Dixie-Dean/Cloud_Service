@@ -22,6 +22,6 @@ public class UserFile {
     private String fileName;
 
     @ManyToOne
-    @JoinColumn(name = "cloud_user_id", referencedColumnName = "user_id")
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     private CloudUser cloudUser;
 }
