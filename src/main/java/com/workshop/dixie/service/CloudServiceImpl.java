@@ -33,7 +33,8 @@ public class CloudServiceImpl implements CloudService {
 
     @Override
     public Optional<String> editFileName(String oldFileName, String newFileName) {
-        return repository.editFileName(oldFileName, newFileName);
+        Optional<String> response = repository.editFileName(oldFileName, newFileName);
+        return response.isPresent() ? response : Optional.of("Error Input Data");
     }
 
     @Override
