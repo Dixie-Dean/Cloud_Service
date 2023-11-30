@@ -23,7 +23,8 @@ public class CloudServiceImpl implements CloudService {
 
     @Override
     public Optional<String> deleteFile(String fileName) {
-        return repository.deleteFile(fileName);
+        Optional<String> response = repository.deleteFile(fileName);
+        return response.isPresent() ? response : Optional.of("Error Input Data");
     }
 
     @Override

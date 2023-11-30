@@ -15,7 +15,7 @@ public interface CloudRepository extends JpaRepository<UserFile, Long> {
     @Query(value = "insert into cloud_schema.files (file_name, user_id) values ('stub_file', 0)", nativeQuery = true)
     Optional<String> uploadFile(@Param("UserFile") UserFile userFile);
 
-    @Query(value = "delete from cloud_schema.files where file_name = :file_name", nativeQuery = true)
+    @Query(value = "delete from cloud_schema.files where file_name = :file_name returning 'File deleted!'", nativeQuery = true)
     Optional<String> deleteFile(@Param("file_name") String fileName);
 
     @Query(value = "select * from cloud_schema.files where file_name = :file_name", nativeQuery = true)
