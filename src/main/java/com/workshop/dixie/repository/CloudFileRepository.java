@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface CloudRepository extends JpaRepository<UserFile, Long> {
+public interface CloudFileRepository extends JpaRepository<UserFile, Long> {
 
     @Query(value = "insert into cloud_schema.files (file_name, user_id) values (:file_name, :user_id) returning 'File uploaded!'", nativeQuery = true)
     Optional<String> uploadFile(@Param("file_name") String fileName, @Param("user_id") long userId);

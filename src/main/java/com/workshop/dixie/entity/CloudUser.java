@@ -14,6 +14,14 @@ import lombok.Setter;
 @Entity
 public class CloudUser {
 
+    public CloudUser(String username, String lastname, String email, String password, String roles) {
+        this.username = username;
+        this.lastname = lastname;
+        this.email = email;
+        this.password = password;
+        this.roles = roles;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
@@ -22,13 +30,16 @@ public class CloudUser {
     @Column(name = "username", nullable = false)
     private String username;
 
-    @Column(name = "surname", nullable = false)
-    private String surname;
+    @Column(name = "lastname", nullable = false)
+    private String lastname;
 
     @Column(name = "email", nullable = false)
     private String email;
 
     @Column(name = "password", nullable = false)
     private String password;
+
+    @Column(name = "roles")
+    private String roles;
 
 }

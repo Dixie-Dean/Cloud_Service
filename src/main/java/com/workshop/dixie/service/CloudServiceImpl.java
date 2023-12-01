@@ -2,7 +2,7 @@ package com.workshop.dixie.service;
 
 import com.workshop.dixie.entity.UserFile;
 import com.workshop.dixie.entity.UserFileDTO;
-import com.workshop.dixie.repository.CloudRepository;
+import com.workshop.dixie.repository.CloudFileRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,9 +11,9 @@ import java.util.Optional;
 @Service
 public class CloudServiceImpl implements CloudService {
 
-    private final CloudRepository repository;
+    private final CloudFileRepository repository;
 
-    public CloudServiceImpl(CloudRepository repository) {
+    public CloudServiceImpl(CloudFileRepository repository) {
         this.repository = repository;
     }
 

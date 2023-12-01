@@ -1,13 +1,5 @@
 package com.workshop.dixie.service;
 
-import com.workshop.dixie.entity.UserFile;
-import com.workshop.dixie.repository.CloudRepository;
-import org.junit.Test;
-import org.junit.jupiter.api.Assertions;
-import org.mockito.Mockito;
-
-import java.util.UUID;
-
 public class CloudServiceTest {
 
 //    private final CloudRepository repository = Mockito.mock(CloudRepository.class);
