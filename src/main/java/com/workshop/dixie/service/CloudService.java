@@ -1,12 +1,13 @@
 package com.workshop.dixie.service;
 
 import com.workshop.dixie.entity.UserFile;
+import com.workshop.dixie.entity.UserFileDTO;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface CloudService {
-    Optional<String> uploadFile(UserFile userFile);
+    Optional<String> uploadFile(UserFileDTO userFileDTO);
 
     Optional<String> deleteFile(String fileName);
 
