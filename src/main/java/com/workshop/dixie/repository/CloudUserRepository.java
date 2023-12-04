@@ -11,4 +11,6 @@ public interface CloudUserRepository extends JpaRepository<CloudUser, Long> {
 
     Optional<CloudUser> findCloudUserByUsername(String username);
 
+    Optional<CloudUser> findCloudUserByEmail(String email);
+
 }
