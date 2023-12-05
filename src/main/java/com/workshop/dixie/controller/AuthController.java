@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/auth")
 public class AuthController {
 
     private final CloudUserRepository repository;
@@ -26,7 +26,7 @@ public class AuthController {
     @PostMapping("register")
     public ResponseEntity<String> register(@RequestBody RegisterData registerData) {
         if (repository.existsByEmail(registerData.getEmail())) {
-            return new ResponseEntity<>("Such email is taken!", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("This email is taken!", HttpStatus.BAD_REQUEST);
         }
 
         CloudUser cloudUser = new CloudUser(
