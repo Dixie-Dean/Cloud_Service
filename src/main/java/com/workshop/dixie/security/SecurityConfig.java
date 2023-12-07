@@ -6,10 +6,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -27,7 +27,6 @@ public class SecurityConfig implements WebMvcConfigurer {
         this.jpaUserDetailsService = jpaUserDetailsService;
     }
 
-
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
@@ -40,11 +39,10 @@ public class SecurityConfig implements WebMvcConfigurer {
     @Order(1)
     SecurityFilterChain registerSecurityFilterChain(HttpSecurity http) throws Exception {
         return http
-                .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers(AntPathRequestMatcher.antMatcher("/auth/**")).permitAll();
-                })
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(auth -> auth.requestMatchers(("/cloud/auth/**")).permitAll())
+                .userDetailsService(jpaUserDetailsService)
                 .formLogin(withDefaults())
-                .csrf(csrf -> csrf.ignoringRequestMatchers(AntPathRequestMatcher.antMatcher("/auth/**")))
                 .build();
     }
 
@@ -52,9 +50,10 @@ public class SecurityConfig implements WebMvcConfigurer {
     @Order(2)
     SecurityFilterChain cloudSecurityFilterChain(HttpSecurity http) throws Exception {
         return http
-                .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
-                .formLogin(withDefaults())
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(auth -> auth.requestMatchers("/cloud/**").authenticated())
                 .userDetailsService(jpaUserDetailsService)
+                .formLogin(withDefaults())
                 .build();
     }
 
