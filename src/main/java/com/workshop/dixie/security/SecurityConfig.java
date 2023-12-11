@@ -3,10 +3,10 @@ package com.workshop.dixie.security;
 import com.workshop.dixie.service.JpaUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -36,24 +36,16 @@ public class SecurityConfig implements WebMvcConfigurer {
     }
 
     @Bean
-    @Order(1)
-    SecurityFilterChain registerSecurityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain registerSecurityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(auth -> auth.requestMatchers(("/cloud/auth/**")).permitAll())
+                .authorizeHttpRequests(auth -> {
+                    auth.requestMatchers("/cloud/auth/**").permitAll();
+                    auth.requestMatchers("/cloud/**").authenticated();
+                })
                 .userDetailsService(jpaUserDetailsService)
-                .formLogin(withDefaults())
-                .build();
-    }
-
-    @Bean
-    @Order(2)
-    SecurityFilterChain cloudSecurityFilterChain(HttpSecurity http) throws Exception {
-        return http
-                .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(auth -> auth.requestMatchers("/cloud/**").authenticated())
-                .userDetailsService(jpaUserDetailsService)
-                .formLogin(withDefaults())
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .httpBasic(withDefaults())
                 .build();
     }
 
