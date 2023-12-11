@@ -1,4 +1,4 @@
-package com.workshop.dixie.service;
+package com.workshop.dixie.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -12,7 +12,7 @@ import java.security.Key;
 import java.util.Date;
 
 @Service
-public class TokenService {
+public class TokenProvider {
     private static final long JWT_EXPIRATION = 70000;
     private static final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
 

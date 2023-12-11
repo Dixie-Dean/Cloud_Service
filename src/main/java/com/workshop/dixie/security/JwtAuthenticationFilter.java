@@ -1,7 +1,6 @@
 package com.workshop.dixie.security;
 
 import com.workshop.dixie.service.JpaUserDetailsService;
-import com.workshop.dixie.service.TokenService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,10 +17,10 @@ import java.io.IOException;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-    private final TokenService tokenGenerator;
+    private final TokenProvider tokenGenerator;
     private final JpaUserDetailsService jpaUserDetailsService;
 
-    public JwtAuthenticationFilter(TokenService tokenGenerator, JpaUserDetailsService jpaUserDetailsService) {
+    public JwtAuthenticationFilter(TokenProvider tokenGenerator, JpaUserDetailsService jpaUserDetailsService) {
         this.tokenGenerator = tokenGenerator;
         this.jpaUserDetailsService = jpaUserDetailsService;
     }
