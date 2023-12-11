@@ -23,10 +23,8 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @EnableWebMvc
 @EnableWebSecurity
 public class SecurityConfig implements WebMvcConfigurer {
-
     private final JpaUserDetailsService jpaUserDetailsService;
     private final TokenProvider tokenProvider;
-
     private final JwtAuthEntryPoint jwtAuthEntryPoint;
 
     public SecurityConfig(JpaUserDetailsService jpaUserDetailsService, TokenProvider tokenProvider, JwtAuthEntryPoint jwtAuthEntryPoint) {

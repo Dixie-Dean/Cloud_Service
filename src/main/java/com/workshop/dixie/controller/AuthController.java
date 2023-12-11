@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/cloud/auth")
 public class AuthController {
-
     private final CloudUserRepository repository;
     private final PasswordEncoder encoder;
     private final TokenProvider tokenProvider;
