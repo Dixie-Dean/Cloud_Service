@@ -15,13 +15,12 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
-@Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-    private final TokenProvider tokenGenerator;
+    private final TokenProvider tokenProvider;
     private final JpaUserDetailsService jpaUserDetailsService;
 
-    public JwtAuthenticationFilter(TokenProvider tokenGenerator, JpaUserDetailsService jpaUserDetailsService) {
-        this.tokenGenerator = tokenGenerator;
+    public JwtAuthenticationFilter(TokenProvider tokenProvider, JpaUserDetailsService jpaUserDetailsService) {
+        this.tokenProvider = tokenProvider;
         this.jpaUserDetailsService = jpaUserDetailsService;
     }
 
@@ -30,8 +29,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
         String token = getJWTFromRequest(request);
-        if(StringUtils.hasText(token) && tokenGenerator.validateToken(token)) {
-            String username = tokenGenerator.getUsernameFromJWT(token);
+        if(StringUtils.hasText(token) && tokenProvider.validateToken(token)) {
+            String username = tokenProvider.getUsernameFromJWT(token);
 
             UserDetails userDetails = jpaUserDetailsService.loadUserByUsername(username);
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails,
