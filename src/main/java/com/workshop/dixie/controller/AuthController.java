@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/cloud/auth")
 public class AuthController {
@@ -38,6 +40,18 @@ public class AuthController {
 
         repository.save(cloudUser);
         return new ResponseEntity<>("User registered successfully!", HttpStatus.OK);
+    }
+
+    @PostMapping("/login")
+    public String login() {
+
+        String jsonTemplate = "{" +
+                "\"auth-token\": \"%s\"" +
+                "}";
+
+        String token = String.valueOf(UUID.randomUUID());
+
+        return String.format(jsonTemplate, token);
     }
 
 }
