@@ -51,7 +51,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody LoginData loginData) {
+    public ResponseEntity<String> login(@RequestBody LoginData loginData) {
         String jsonTokenTemplate = "{" + "\"auth-token\": \"%s\"" + "}";
 
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
@@ -60,7 +60,7 @@ public class AuthController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = tokenProvider.generateToken(authentication);
 
-        return String.format(jsonTokenTemplate, token);
+        return new ResponseEntity<>(String.format(jsonTokenTemplate, token), HttpStatus.OK);
     }
 
 }

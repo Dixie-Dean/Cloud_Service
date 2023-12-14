@@ -45,7 +45,6 @@ public class SecurityConfig implements WebMvcConfigurer {
                 })
                 .sessionManagement(AbstractHttpConfigurer::disable)
                 .userDetailsService(jpaUserDetailsService)
-                .formLogin(Customizer.withDefaults())
                 .build();
     }
 
