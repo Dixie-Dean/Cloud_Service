@@ -37,7 +37,8 @@ public class SecurityConfig implements WebMvcConfigurer {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/cloud/auth/**").permitAll();
+                    auth.requestMatchers("/cloud/login").permitAll();
+                    auth.requestMatchers("/cloud/register").permitAll();
                     auth.requestMatchers("/cloud/**").authenticated();
                 })
                 .sessionManagement(AbstractHttpConfigurer::disable)
