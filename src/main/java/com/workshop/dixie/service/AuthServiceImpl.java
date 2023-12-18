@@ -3,6 +3,7 @@ package com.workshop.dixie.service;
 import com.workshop.dixie.entity.CloudUser;
 import com.workshop.dixie.entity.LoginData;
 import com.workshop.dixie.entity.RegisterData;
+import com.workshop.dixie.entity.TokenDTO;
 import com.workshop.dixie.repository.CloudUserRepository;
 import com.workshop.dixie.security.TokenProvider;
 import org.springframework.http.HttpStatus;
@@ -16,16 +17,16 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class AuthServiceImpl implements AuthService {
-    private final CloudUserRepository repository;
+    private final CloudUserRepository cloudUserRepository;
     private final PasswordEncoder encoder;
     private final TokenProvider tokenProvider;
     private final AuthenticationManager authenticationManager;
 
-    public AuthServiceImpl(CloudUserRepository repository,
+    public AuthServiceImpl(CloudUserRepository cloudUserRepository,
                            PasswordEncoder encoder,
                            TokenProvider tokenProvider,
                            AuthenticationManager authenticationManager) {
-        this.repository = repository;
+        this.cloudUserRepository = cloudUserRepository;
         this.encoder = encoder;
         this.tokenProvider = tokenProvider;
         this.authenticationManager = authenticationManager;
@@ -33,7 +34,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public ResponseEntity<String> register(RegisterData registerData) {
-        if (repository.existsByEmail(registerData.getEmail())) {
+        if (cloudUserRepository.existsByEmail(registerData.getEmail())) {
             return new ResponseEntity<>("This email is taken!", HttpStatus.BAD_REQUEST);
         }
 
@@ -45,24 +46,20 @@ public class AuthServiceImpl implements AuthService {
                 "USER"
         );
 
-        repository.save(cloudUser);
+        cloudUserRepository.save(cloudUser);
         return new ResponseEntity<>("User registered successfully!", HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<String> login(LoginData loginData) {
-        String jsonTokenTemplate = "{" + "\"auth-token\": \"%s\"" + "}";
-
-        if (!repository.existsByEmail(loginData.getLogin())) {
-            return new ResponseEntity<>("Bad Credentials", HttpStatus.BAD_REQUEST);
+    public ResponseEntity<TokenDTO> login(LoginData loginData) {
+        if (!cloudUserRepository.existsByEmail(loginData.getLogin())) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
 
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                loginData.getLogin(),
-                loginData.getPassword()));
+                loginData.getLogin(), loginData.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String token = tokenProvider.generateToken(authentication);
-
-        return new ResponseEntity<>(String.format(jsonTokenTemplate, token), HttpStatus.OK);
+        TokenDTO tokenDTO = new TokenDTO(tokenProvider.generateToken(authentication));
+        return new ResponseEntity<>(tokenDTO, HttpStatus.OK);
     }
 }

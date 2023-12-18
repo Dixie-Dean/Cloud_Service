@@ -13,7 +13,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 @Service
 public class CloudServiceImpl implements CloudService {
     private final CloudFileRepository cloudFileRepository;
-    private FileMapper fileMapper;
+    private final FileMapper fileMapper;
 
     public CloudServiceImpl(CloudFileRepository cloudFileRepository, FileMapper fileMapper) {
         this.cloudFileRepository = cloudFileRepository;
