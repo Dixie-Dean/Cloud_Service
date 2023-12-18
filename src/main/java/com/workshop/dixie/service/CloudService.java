@@ -1,19 +1,19 @@
 package com.workshop.dixie.service;
 
-import com.workshop.dixie.entity.UserFile;
-import com.workshop.dixie.entity.UserFileDTO;
+import com.workshop.dixie.entity.File;
+import com.workshop.dixie.entity.FileDTO;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface CloudService {
-    Optional<String> uploadFile(UserFileDTO userFileDTO);
+    Optional<String> uploadFile(FileDTO fileDTO);
 
     Optional<String> deleteFile(String fileName);
 
-    Optional<UserFile> downloadFile(String filename);
+    Optional<File> downloadFile(String filename);
 
     Optional<String> editFileName(String oldFileName, String newFileName);
 
-    List<UserFile> getAllFiles(int limit);
+    List<FileDTO> getAllFiles(int limit);
 }

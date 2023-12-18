@@ -2,12 +2,12 @@ package com.workshop.dixie.entity;
 
 import lombok.*;
 
-@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @ToString
-public class UserFileDTO {
-    private String fileName;
+public class FileDTO {
+    private String filename;
     private long userId;
+    private CloudUserDTO cloudUserDTO;
 }

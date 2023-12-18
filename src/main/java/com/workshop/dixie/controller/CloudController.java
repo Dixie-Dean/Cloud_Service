@@ -1,7 +1,7 @@
 package com.workshop.dixie.controller;
 
-import com.workshop.dixie.entity.UserFile;
-import com.workshop.dixie.entity.UserFileDTO;
+import com.workshop.dixie.entity.File;
+import com.workshop.dixie.entity.FileDTO;
 import com.workshop.dixie.service.CloudService;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,8 +19,8 @@ public class CloudController {
     }
 
     @PostMapping("/upload")
-    public Optional<String> uploadFile(@RequestBody UserFileDTO userFileDTO) {
-        return cloudService.uploadFile(userFileDTO);
+    public Optional<String> uploadFile(@RequestBody FileDTO fileDTO) {
+        return cloudService.uploadFile(fileDTO);
     }
 
     @DeleteMapping("/delete")
@@ -29,7 +29,7 @@ public class CloudController {
     }
 
     @GetMapping("/download")
-    public Optional<UserFile> downloadFile(@RequestParam String fileName) {
+    public Optional<File> downloadFile(@RequestParam String fileName) {
         return cloudService.downloadFile(fileName);
     }
 
@@ -39,7 +39,7 @@ public class CloudController {
     }
 
     @GetMapping("/list")
-    public List<UserFile> getAllFiles(@RequestParam int limit) {
+    public List<FileDTO> getAllFiles(@RequestParam int limit) {
         return cloudService.getAllFiles(limit);
     }
 }

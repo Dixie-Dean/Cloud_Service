@@ -1,47 +1,57 @@
 package com.workshop.dixie.service;
 
-import com.workshop.dixie.entity.UserFile;
-import com.workshop.dixie.entity.UserFileDTO;
+import com.workshop.dixie.entity.File;
+import com.workshop.dixie.entity.FileDTO;
+import com.workshop.dixie.mapper.FileMapper;
 import com.workshop.dixie.repository.CloudFileRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 @Service
 public class CloudServiceImpl implements CloudService {
+    private final CloudFileRepository cloudFileRepository;
+    private FileMapper fileMapper;
 
-    private final CloudFileRepository repository;
-
-    public CloudServiceImpl(CloudFileRepository repository) {
-        this.repository = repository;
+    public CloudServiceImpl(CloudFileRepository cloudFileRepository, FileMapper fileMapper) {
+        this.cloudFileRepository = cloudFileRepository;
+        this.fileMapper = fileMapper;
     }
 
     @Override
-    public Optional<String> uploadFile(UserFileDTO userFileDTO) {
-        Optional<String> response = repository.uploadFile(userFileDTO.getFileName(), userFileDTO.getUserId());
+    public Optional<String> uploadFile(FileDTO fileDTO) {
+        Optional<String> response = cloudFileRepository.uploadFile(fileDTO.getFilename(), fileDTO.getUserId());
         return response.isPresent() ? response : Optional.of("Error Input Data");
     }
 
     @Override
     public Optional<String> deleteFile(String fileName) {
-        Optional<String> response = repository.deleteFile(fileName);
+        Optional<String> response = cloudFileRepository.deleteFile(fileName);
         return response.isPresent() ? response : Optional.of("Error Input Data");
     }
 
     @Override
-    public Optional<UserFile> downloadFile(String filename) {
-        return repository.downloadFile(filename);
+    public Optional<File> downloadFile(String filename) {
+        return cloudFileRepository.downloadFile(filename);
     }
 
     @Override
     public Optional<String> editFileName(String oldFileName, String newFileName) {
-        Optional<String> response = repository.editFileName(oldFileName, newFileName);
+        Optional<String> response = cloudFileRepository.editFileName(oldFileName, newFileName);
         return response.isPresent() ? response : Optional.of("Error Input Data");
     }
 
     @Override
-    public List<UserFile> getAllFiles(int limit) {
-        return repository.getAllFiles(limit);
+    public List<FileDTO> getAllFiles(int limit) {
+        List<File> fileList = cloudFileRepository.getAllFiles(limit);
+        List<FileDTO> fileDtoList = new CopyOnWriteArrayList<>();
+
+        for (File file : fileList) {
+            fileDtoList.add(fileMapper.toUserFileDTO(file));
+        }
+
+        return fileDtoList;
     }
 }
