@@ -2,18 +2,19 @@ package com.workshop.dixie.service;
 
 import com.workshop.dixie.entity.File;
 import com.workshop.dixie.entity.FileDTO;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface CloudService {
-    Optional<String> uploadFile(FileDTO fileDTO);
+    ResponseEntity<String> uploadFile(String token, FileDTO fileDTO);
 
-    Optional<String> deleteFile(String fileName);
+    ResponseEntity<String> deleteFile(String token, String fileName);
 
-    Optional<File> downloadFile(String filename);
+    Optional<File> downloadFile(String token, String filename);
 
-    Optional<String> editFileName(String oldFileName, String newFileName);
+    ResponseEntity<String> editFileName(String token, String oldFileName, String newFileName);
 
-    List<FileDTO> getAllFiles(int limit);
+    List<FileDTO> getAllFiles(String token, int limit);
 }

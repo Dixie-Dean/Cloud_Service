@@ -4,6 +4,9 @@ import com.workshop.dixie.entity.File;
 import com.workshop.dixie.entity.FileDTO;
 import com.workshop.dixie.mapper.FileMapper;
 import com.workshop.dixie.repository.CloudFileRepository;
+import com.workshop.dixie.security.TokenManager;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,37 +17,67 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class CloudServiceImpl implements CloudService {
     private final CloudFileRepository cloudFileRepository;
     private final FileMapper fileMapper;
+    private final TokenManager tokenManager;
 
-    public CloudServiceImpl(CloudFileRepository cloudFileRepository, FileMapper fileMapper) {
+    public CloudServiceImpl(CloudFileRepository cloudFileRepository,
+                            FileMapper fileMapper,
+                            TokenManager tokenManager) {
         this.cloudFileRepository = cloudFileRepository;
         this.fileMapper = fileMapper;
+        this.tokenManager = tokenManager;
     }
 
     @Override
-    public Optional<String> uploadFile(FileDTO fileDTO) {
+    public ResponseEntity<String> uploadFile(String token, FileDTO fileDTO) {
+        if (tokenManager.validateToken(token)) {
+            return new ResponseEntity<>("Token is expired or incorrect", HttpStatus.UNAUTHORIZED);
+        }
+
         Optional<String> response = cloudFileRepository.uploadFile(fileDTO.getFilename(), fileDTO.getUserId());
-        return response.isPresent() ? response : Optional.of("Error Input Data");
+        return response.map(string ->
+                new ResponseEntity<>(string, HttpStatus.OK)).orElseGet(() ->
+                new ResponseEntity<>("Error Input Data", HttpStatus.BAD_REQUEST));
     }
 
     @Override
-    public Optional<String> deleteFile(String fileName) {
+    public ResponseEntity<String> deleteFile(String token, String fileName) {
+        if (tokenManager.validateToken(token)) {
+            return new ResponseEntity<>("Token is expired or incorrect", HttpStatus.UNAUTHORIZED);
+        }
+
         Optional<String> response = cloudFileRepository.deleteFile(fileName);
-        return response.isPresent() ? response : Optional.of("Error Input Data");
+        return response.map(string ->
+                new ResponseEntity<>(string, HttpStatus.OK)).orElseGet(() ->
+                new ResponseEntity<>("Error Input Data", HttpStatus.BAD_REQUEST));
     }
 
     @Override
-    public Optional<File> downloadFile(String filename) {
+    public Optional<File> downloadFile(String token, String filename) {
+        if (tokenManager.validateToken(token)) {
+            return Optional.empty();
+        }
+
         return cloudFileRepository.downloadFile(filename);
     }
 
     @Override
-    public Optional<String> editFileName(String oldFileName, String newFileName) {
+    public ResponseEntity<String> editFileName(String token, String oldFileName, String newFileName) {
+        if (tokenManager.validateToken(token)) {
+            return new ResponseEntity<>("Token is expired or incorrect", HttpStatus.UNAUTHORIZED);
+        }
+
         Optional<String> response = cloudFileRepository.editFileName(oldFileName, newFileName);
-        return response.isPresent() ? response : Optional.of("Error Input Data");
+        return response.map(string ->
+                new ResponseEntity<>(string, HttpStatus.OK)).orElseGet(() ->
+                new ResponseEntity<>("Error Input Data", HttpStatus.BAD_REQUEST));
     }
 
     @Override
-    public List<FileDTO> getAllFiles(int limit) {
+    public List<FileDTO> getAllFiles(String token, int limit) {
+        if (tokenManager.validateToken(token)) {
+            return null;
+        }
+
         List<File> fileList = cloudFileRepository.getAllFiles(limit);
         List<FileDTO> fileDtoList = new CopyOnWriteArrayList<>();
 

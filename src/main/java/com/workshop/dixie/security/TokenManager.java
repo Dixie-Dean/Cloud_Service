@@ -12,7 +12,7 @@ import java.security.Key;
 import java.util.Date;
 
 @Service
-public class TokenProvider {
+public class TokenManager {
     private static final long JWT_EXPIRATION = 70000;
     private static final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
 
@@ -47,7 +47,7 @@ public class TokenProvider {
                     .parseClaimsJws(token);
             return true;
         } catch (Exception ex) {
-            throw new AuthenticationCredentialsNotFoundException("JWT was expired or incorrect", ex.fillInStackTrace());
+            throw new AuthenticationCredentialsNotFoundException("Token was expired or incorrect", ex.fillInStackTrace());
         }
     }
 }

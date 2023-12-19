@@ -5,7 +5,7 @@ import com.workshop.dixie.entity.LoginData;
 import com.workshop.dixie.entity.RegisterData;
 import com.workshop.dixie.entity.TokenDTO;
 import com.workshop.dixie.repository.CloudUserRepository;
-import com.workshop.dixie.security.TokenProvider;
+import com.workshop.dixie.security.TokenManager;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,16 +19,16 @@ import org.springframework.stereotype.Service;
 public class AuthServiceImpl implements AuthService {
     private final CloudUserRepository cloudUserRepository;
     private final PasswordEncoder encoder;
-    private final TokenProvider tokenProvider;
+    private final TokenManager tokenManager;
     private final AuthenticationManager authenticationManager;
 
     public AuthServiceImpl(CloudUserRepository cloudUserRepository,
                            PasswordEncoder encoder,
-                           TokenProvider tokenProvider,
+                           TokenManager tokenManager,
                            AuthenticationManager authenticationManager) {
         this.cloudUserRepository = cloudUserRepository;
         this.encoder = encoder;
-        this.tokenProvider = tokenProvider;
+        this.tokenManager = tokenManager;
         this.authenticationManager = authenticationManager;
     }
 
@@ -59,7 +59,7 @@ public class AuthServiceImpl implements AuthService {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 loginData.getLogin(), loginData.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        TokenDTO tokenDTO = new TokenDTO(tokenProvider.generateToken(authentication));
+        TokenDTO tokenDTO = new TokenDTO(tokenManager.generateToken(authentication));
         return new ResponseEntity<>(tokenDTO, HttpStatus.OK);
     }
 }
