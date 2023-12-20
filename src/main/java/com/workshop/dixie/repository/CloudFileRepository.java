@@ -16,7 +16,7 @@ public interface CloudFileRepository extends JpaRepository<File, Long> {
     Optional<String> uploadFile(@Param("file_name") String filename);
 
     @Query(value = "delete from cloud_schema.files where file_name = :file_name returning 'File deleted!'", nativeQuery = true)
-    Optional<String> deleteFile(@Param("file_name") String fileName);
+    Optional<String> deleteFile(@Param("file_name") String filename);
 
     @Query(value = "select * from cloud_schema.files where file_name = :file_name", nativeQuery = true)
     Optional<File> downloadFile(@Param("file_name") String filename);

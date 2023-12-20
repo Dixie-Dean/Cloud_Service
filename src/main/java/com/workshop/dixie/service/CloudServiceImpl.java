@@ -40,12 +40,12 @@ public class CloudServiceImpl implements CloudService {
     }
 
     @Override
-    public ResponseEntity<String> deleteFile(String token, String fileName) {
+    public ResponseEntity<String> deleteFile(String token, String filename) {
         if (tokenManager.validateToken(token)) {
             return new ResponseEntity<>("Token is expired or incorrect", HttpStatus.UNAUTHORIZED);
         }
 
-        Optional<String> response = cloudFileRepository.deleteFile(fileName);
+        Optional<String> response = cloudFileRepository.deleteFile(filename);
         return response.map(string ->
                 new ResponseEntity<>(string, HttpStatus.OK)).orElseGet(() ->
                 new ResponseEntity<>("Error Input Data", HttpStatus.BAD_REQUEST));

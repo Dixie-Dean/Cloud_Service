@@ -22,16 +22,13 @@ public class CloudController {
     public ResponseEntity<String> uploadFile(@RequestHeader(name = "auth-token") String token,
                                              @RequestParam String filename,
                                              @ModelAttribute FileDTO fileDTO) {
-
-        System.out.println(fileDTO);
-
         return cloudService.uploadFile(token, filename, fileDTO);
     }
 
     @DeleteMapping("/delete")
     public ResponseEntity<String> deleteFile(@RequestHeader(name = "auth-token") String token,
-                                             @RequestParam String fileName) {
-        return cloudService.deleteFile(token, fileName);
+                                             @RequestParam String filename) {
+        return cloudService.deleteFile(token, filename);
     }
 
     @GetMapping("/download")
