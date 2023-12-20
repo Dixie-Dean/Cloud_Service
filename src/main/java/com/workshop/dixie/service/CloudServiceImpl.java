@@ -8,6 +8,7 @@ import com.workshop.dixie.security.TokenManager;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,12 +29,12 @@ public class CloudServiceImpl implements CloudService {
     }
 
     @Override
-    public ResponseEntity<String> uploadFile(String token, FileDTO fileDTO) {
-        if (tokenManager.validateToken(token)) {
-            return new ResponseEntity<>("Token is expired or incorrect", HttpStatus.UNAUTHORIZED);
-        }
+    public ResponseEntity<String> uploadFile(String token, String filename, FileDTO fileDTO) {
+//        if (tokenManager.validateToken(token)) {
+//            return new ResponseEntity<>("Token is expired or incorrect", HttpStatus.UNAUTHORIZED);
+//        }
 
-        Optional<String> response = cloudFileRepository.uploadFile(fileDTO.getFilename(), fileDTO.getUserId());
+        Optional<String> response = cloudFileRepository.uploadFile(filename);
         return response.map(string ->
                 new ResponseEntity<>(string, HttpStatus.OK)).orElseGet(() ->
                 new ResponseEntity<>("Error Input Data", HttpStatus.BAD_REQUEST));

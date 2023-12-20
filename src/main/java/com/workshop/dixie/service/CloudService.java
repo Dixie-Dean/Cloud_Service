@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CloudService {
-    ResponseEntity<String> uploadFile(String token, FileDTO fileDTO);
+    ResponseEntity<String> uploadFile(String token, String filename, FileDTO fileDTO);
 
     ResponseEntity<String> deleteFile(String token, String fileName);
 
