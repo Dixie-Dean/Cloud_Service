@@ -19,7 +19,7 @@ public class File {
     @Column(name = "file_name", nullable = false)
     private String filename;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
-    private CloudUser cloudUser;
+//    @ManyToOne
+//    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
+//    private CloudUser cloudUser;
 }

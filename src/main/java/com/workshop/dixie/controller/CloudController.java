@@ -3,10 +3,8 @@ package com.workshop.dixie.controller;
 import com.workshop.dixie.entity.File;
 import com.workshop.dixie.entity.FileDTO;
 import com.workshop.dixie.service.CloudService;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,6 +22,9 @@ public class CloudController {
     public ResponseEntity<String> uploadFile(@RequestHeader(name = "auth-token") String token,
                                              @RequestParam String filename,
                                              @ModelAttribute FileDTO fileDTO) {
+
+        System.out.println(fileDTO);
+
         return cloudService.uploadFile(token, filename, fileDTO);
     }
 

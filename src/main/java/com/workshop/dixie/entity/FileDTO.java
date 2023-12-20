@@ -13,8 +13,8 @@ import java.io.InputStream;
 @ToString
 public class FileDTO implements MultipartFile {
     private String filename;
-    private long userId;
-    private CloudUserDTO cloudUserDTO;
+//    private long userId;
+//    private CloudUserDTO cloudUserDTO;
 
     @Override
     public String getName() {
