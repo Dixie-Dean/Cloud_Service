@@ -12,8 +12,8 @@ import java.util.Optional;
 @Repository
 public interface CloudFileRepository extends JpaRepository<File, Long> {
 
-    @Query(value = "insert into cloud_schema.files (file_name) values (:file_name) returning 'File uploaded!'", nativeQuery = true)
-    Optional<String> uploadFile(@Param("file_name") String filename);
+    @Query(value = "insert into cloud_schema.files (hash, file_name, file) values (:hash, :file_name, :file) returning 'File uploaded!'", nativeQuery = true)
+    Optional<String> uploadFile(@Param("hash") String hash, @Param("file_name") String filename, @Param("file") String file);
 
     @Query(value = "delete from cloud_schema.files where file_name = :file_name returning 'File deleted!'", nativeQuery = true)
     Optional<String> deleteFile(@Param("file_name") String filename);

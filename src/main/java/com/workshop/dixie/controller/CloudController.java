@@ -18,11 +18,11 @@ public class CloudController {
         this.cloudService = cloudService;
     }
 
-    @PostMapping(value = "/upload")
+    @PostMapping(value = "/file")
     public ResponseEntity<String> uploadFile(@RequestHeader(name = "auth-token") String token,
                                              @RequestParam String filename,
-                                             @ModelAttribute FileDTO fileDTO) {
-        return cloudService.uploadFile(token, filename, fileDTO);
+                                             @ModelAttribute FileDTO file) {
+        return cloudService.uploadFile(token, filename, file);
     }
 
     @DeleteMapping("/delete")

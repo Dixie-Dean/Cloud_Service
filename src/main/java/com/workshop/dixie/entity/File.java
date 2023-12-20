@@ -3,6 +3,8 @@ package com.workshop.dixie.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.UUID;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -13,13 +15,11 @@ import lombok.*;
 public class File {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long fileId;
+    private String hash;
 
     @Column(name = "file_name", nullable = false)
     private String filename;
 
-//    @ManyToOne
-//    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
-//    private CloudUser cloudUser;
+    @Column(name = "file")
+    private String file;
 }

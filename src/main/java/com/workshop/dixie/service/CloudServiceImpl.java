@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 @Service
@@ -33,7 +34,11 @@ public class CloudServiceImpl implements CloudService {
 //            return new ResponseEntity<>("Token is expired or incorrect", HttpStatus.UNAUTHORIZED);
 //        }
 
-        Optional<String> response = cloudFileRepository.uploadFile(filename);
+        Optional<String> response = cloudFileRepository.uploadFile(
+                UUID.randomUUID().toString(),
+                filename,
+                fileDTO.getFile());
+
         return response.map(string ->
                 new ResponseEntity<>(string, HttpStatus.OK)).orElseGet(() ->
                 new ResponseEntity<>("Error Input Data", HttpStatus.BAD_REQUEST));

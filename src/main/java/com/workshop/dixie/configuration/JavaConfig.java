@@ -14,7 +14,7 @@ public class JavaConfig {
     }
 
     @Bean
-    public FileMapper fileMapper(CloudUserMapper cloudUserMapper) {
-        return new FileMapper(cloudUserMapper);
+    public FileMapper fileMapper() {
+        return new FileMapper();
     }
 }
