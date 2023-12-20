@@ -11,8 +11,7 @@ public class FileMapper {
         }
         FileDTO destination = new FileDTO();
         destination.setHash(file.getHash());
-        destination.setFilename(file.getFilename());
-        destination.setFile(file.getFile());
+//        destination.setFile(file.getFile().to);
         return destination;
     }
     public File toUserFile(FileDTO fileDTO) {
@@ -21,8 +20,7 @@ public class FileMapper {
         }
         File destination = new File();
         destination.setHash(fileDTO.getHash());
-        destination.setFilename(fileDTO.getFilename());
-        destination.setFile(fileDTO.getFile());
+        destination.setFile(fileDTO.getFile().toString());
         return destination;
     }
 }

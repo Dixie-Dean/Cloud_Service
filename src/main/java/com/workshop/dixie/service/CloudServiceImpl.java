@@ -37,7 +37,7 @@ public class CloudServiceImpl implements CloudService {
         Optional<String> response = cloudFileRepository.uploadFile(
                 UUID.randomUUID().toString(),
                 filename,
-                fileDTO.getFile());
+                fileDTO.getFile().toString());
 
         return response.map(string ->
                 new ResponseEntity<>(string, HttpStatus.OK)).orElseGet(() ->
