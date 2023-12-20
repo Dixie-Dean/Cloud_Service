@@ -39,9 +39,9 @@ public class CloudController {
 
     @PutMapping("/edit")
     public ResponseEntity<String> editFileName(@RequestHeader(name = "auth-token") String token,
-                                               @RequestParam String fileName,
+                                               @RequestParam String filename,
                                                @RequestParam String newFileName) {
-        return cloudService.editFileName(token, fileName, newFileName);
+        return cloudService.editFileName(token, filename, newFileName);
     }
 
     @GetMapping("/list")

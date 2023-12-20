@@ -14,7 +14,7 @@ public interface CloudService {
 
     Optional<File> downloadFile(String token, String filename);
 
-    ResponseEntity<String> editFileName(String token, String oldFileName, String newFileName);
+    ResponseEntity<String> editFileName(String token, String filename, String newFileName);
 
     List<FileDTO> getAllFiles(String token, int limit);
 }

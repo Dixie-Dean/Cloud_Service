@@ -61,12 +61,12 @@ public class CloudServiceImpl implements CloudService {
     }
 
     @Override
-    public ResponseEntity<String> editFileName(String token, String oldFileName, String newFileName) {
+    public ResponseEntity<String> editFileName(String token, String filename, String newFileName) {
         if (tokenManager.validateToken(token)) {
             return new ResponseEntity<>("Token is expired or incorrect", HttpStatus.UNAUTHORIZED);
         }
 
-        Optional<String> response = cloudFileRepository.editFileName(oldFileName, newFileName);
+        Optional<String> response = cloudFileRepository.editFileName(filename, newFileName);
         return response.map(string ->
                 new ResponseEntity<>(string, HttpStatus.OK)).orElseGet(() ->
                 new ResponseEntity<>("Error Input Data", HttpStatus.BAD_REQUEST));
