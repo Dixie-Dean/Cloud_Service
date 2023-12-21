@@ -1,16 +1,13 @@
 package com.workshop.dixie.controller;
 
-import com.workshop.dixie.entity.File;
-import com.workshop.dixie.entity.InputFileDTO;
 import com.workshop.dixie.entity.EditFileDTO;
+import com.workshop.dixie.entity.InputFileDTO;
 import com.workshop.dixie.entity.ResponseFileDTO;
 import com.workshop.dixie.service.CloudService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/cloud")
@@ -28,7 +25,7 @@ public class CloudController {
         return cloudService.uploadFile(token, filename, file);
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping("/file")
     public ResponseEntity<String> deleteFile(@RequestHeader(name = "auth-token") String token,
                                              @RequestParam String filename) {
         return cloudService.deleteFile(token, filename);
@@ -36,7 +33,7 @@ public class CloudController {
 
     @GetMapping("/file")
     public ResponseEntity<ResponseFileDTO> downloadFile(@RequestHeader(name = "auth-token") String token,
-                                                @RequestParam String filename) {
+                                                        @RequestParam String filename) {
         return cloudService.downloadFile(token, filename);
     }
 

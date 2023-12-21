@@ -1,8 +1,8 @@
 package com.workshop.dixie.service;
 
+import com.workshop.dixie.entity.EditFileDTO;
 import com.workshop.dixie.entity.File;
 import com.workshop.dixie.entity.InputFileDTO;
-import com.workshop.dixie.entity.EditFileDTO;
 import com.workshop.dixie.entity.ResponseFileDTO;
 import com.workshop.dixie.mapper.FileMapper;
 import com.workshop.dixie.repository.CloudFileRepository;
@@ -10,7 +10,6 @@ import com.workshop.dixie.security.TokenManager;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
