@@ -2,6 +2,7 @@ package com.workshop.dixie.service;
 
 import com.workshop.dixie.entity.File;
 import com.workshop.dixie.entity.InputFileDTO;
+import com.workshop.dixie.entity.EditFileDTO;
 import com.workshop.dixie.entity.ResponseFileDTO;
 import com.workshop.dixie.mapper.FileMapper;
 import com.workshop.dixie.repository.CloudFileRepository;
@@ -67,12 +68,12 @@ public class CloudServiceImpl implements CloudService {
     }
 
     @Override
-    public ResponseEntity<String> editFileName(String token, String filename, String newFileName) {
+    public ResponseEntity<String> editFileName(String token, String filename, EditFileDTO editFileDTO) {
 //        if (tokenManager.validateToken(token)) {
 //            return new ResponseEntity<>("Token is expired or incorrect", HttpStatus.UNAUTHORIZED);
 //        }
 
-        Optional<String> response = cloudFileRepository.editFileName(filename, newFileName);
+        Optional<String> response = cloudFileRepository.editFileName(filename, editFileDTO.getName());
         return response.map(string ->
                 new ResponseEntity<>(string, HttpStatus.OK)).orElseGet(() ->
                 new ResponseEntity<>("Error Input Data", HttpStatus.BAD_REQUEST));

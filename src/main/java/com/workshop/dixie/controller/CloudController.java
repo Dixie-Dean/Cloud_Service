@@ -2,6 +2,7 @@ package com.workshop.dixie.controller;
 
 import com.workshop.dixie.entity.File;
 import com.workshop.dixie.entity.InputFileDTO;
+import com.workshop.dixie.entity.EditFileDTO;
 import com.workshop.dixie.entity.ResponseFileDTO;
 import com.workshop.dixie.service.CloudService;
 import org.springframework.http.ResponseEntity;
@@ -34,15 +35,15 @@ public class CloudController {
 
     @GetMapping("/download")
     public Optional<File> downloadFile(@RequestHeader(name = "auth-token") String token,
-                                       @RequestParam String fileName) {
-        return cloudService.downloadFile(token, fileName);
+                                       @RequestParam String filename) {
+        return cloudService.downloadFile(token, filename);
     }
 
-    @PutMapping("/edit")
+    @PutMapping("/file")
     public ResponseEntity<String> editFileName(@RequestHeader(name = "auth-token") String token,
                                                @RequestParam String filename,
-                                               @RequestParam String newFileName) {
-        return cloudService.editFileName(token, filename, newFileName);
+                                               @RequestBody EditFileDTO editFileDTO) {
+        return cloudService.editFileName(token, filename, editFileDTO);
     }
 
     @GetMapping("/list")
