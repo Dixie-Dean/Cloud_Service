@@ -10,6 +10,7 @@ import com.workshop.dixie.security.TokenManager;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -59,12 +60,15 @@ public class CloudServiceImpl implements CloudService {
     }
 
     @Override
-    public Optional<File> downloadFile(String token, String filename) {
+    public ResponseEntity<ResponseFileDTO> downloadFile(String token, String filename) {
 //        if (tokenManager.validateToken(token)) {
 //            return Optional.empty();
 //        }
 
-        return cloudFileRepository.downloadFile(filename);
+        Optional<File> downloadedFile = cloudFileRepository.downloadFile(filename);
+        return downloadedFile.map(file ->
+                new ResponseEntity<>(fileMapper.toResponseDTO(file), HttpStatus.OK))
+                .orElseThrow();
     }
 
     @Override
