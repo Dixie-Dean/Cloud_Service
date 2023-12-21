@@ -24,6 +24,6 @@ public interface CloudFileRepository extends JpaRepository<File, Long> {
     @Query(value = "update cloud_schema.files set file_name = :new_file_name where file_name = :old_file_name returning 'Filename edited!'", nativeQuery = true)
     Optional<String> editFileName(@Param("old_file_name") String oldFileName, @Param("new_file_name") String newFileName);
 
-    @Query(value = "select * from cloud_schema.files order by user_id limit :limit", nativeQuery = true)
+    @Query(value = "select * from cloud_schema.files limit :limit", nativeQuery = true)
     List<File> getAllFiles(@Param("limit") int limit);
 }

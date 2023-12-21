@@ -3,6 +3,7 @@ package com.workshop.dixie.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -12,7 +13,7 @@ import java.util.UUID;
 @ToString
 @Table(schema = "cloud_schema", name = "files")
 @Entity
-public class File {
+public class File implements Serializable {
 
     @Id
     private String hash;

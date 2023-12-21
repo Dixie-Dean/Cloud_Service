@@ -10,7 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Getter
 @Setter
 @ToString
-public class FileDTO {
+public class InputFileDTO {
     private String hash;
     private MultipartFile file;
 }

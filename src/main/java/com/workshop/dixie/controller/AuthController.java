@@ -1,7 +1,7 @@
 package com.workshop.dixie.controller;
 
-import com.workshop.dixie.entity.LoginData;
-import com.workshop.dixie.entity.RegisterData;
+import com.workshop.dixie.entity.LoginDTO;
+import com.workshop.dixie.entity.RegisterDTO;
 import com.workshop.dixie.entity.TokenDTO;
 import com.workshop.dixie.service.AuthServiceImpl;
 import org.springframework.http.ResponseEntity;
@@ -20,13 +20,13 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody RegisterData registerData) {
-        return authService.register(registerData);
+    public ResponseEntity<String> register(@RequestBody RegisterDTO registerDTO) {
+        return authService.register(registerDTO);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<TokenDTO> login(@RequestBody LoginData loginData) {
-        return authService.login(loginData);
+    public ResponseEntity<TokenDTO> login(@RequestBody LoginDTO loginDTO) {
+        return authService.login(loginDTO);
     }
 
 }

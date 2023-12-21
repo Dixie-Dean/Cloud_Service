@@ -1,8 +1,8 @@
 package com.workshop.dixie.service;
 
 import com.workshop.dixie.entity.CloudUser;
-import com.workshop.dixie.entity.LoginData;
-import com.workshop.dixie.entity.RegisterData;
+import com.workshop.dixie.entity.LoginDTO;
+import com.workshop.dixie.entity.RegisterDTO;
 import com.workshop.dixie.entity.TokenDTO;
 import com.workshop.dixie.repository.CloudUserRepository;
 import com.workshop.dixie.security.TokenManager;
@@ -33,16 +33,16 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public ResponseEntity<String> register(RegisterData registerData) {
-        if (cloudUserRepository.existsByEmail(registerData.getEmail())) {
+    public ResponseEntity<String> register(RegisterDTO registerDTO) {
+        if (cloudUserRepository.existsByEmail(registerDTO.getEmail())) {
             return new ResponseEntity<>("This email is taken!", HttpStatus.BAD_REQUEST);
         }
 
         CloudUser cloudUser = new CloudUser(
-                registerData.getUsername(),
-                registerData.getLastname(),
-                registerData.getEmail(),
-                encoder.encode(registerData.getPassword()),
+                registerDTO.getUsername(),
+                registerDTO.getLastname(),
+                registerDTO.getEmail(),
+                encoder.encode(registerDTO.getPassword()),
                 "USER"
         );
 
@@ -51,13 +51,13 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public ResponseEntity<TokenDTO> login(LoginData loginData) {
-        if (!cloudUserRepository.existsByEmail(loginData.getLogin())) {
+    public ResponseEntity<TokenDTO> login(LoginDTO loginDTO) {
+        if (!cloudUserRepository.existsByEmail(loginDTO.getLogin())) {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
 
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                loginData.getLogin(), loginData.getPassword()));
+                loginDTO.getLogin(), loginDTO.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         TokenDTO tokenDTO = new TokenDTO(tokenManager.generateToken(authentication));
         return new ResponseEntity<>(tokenDTO, HttpStatus.OK);

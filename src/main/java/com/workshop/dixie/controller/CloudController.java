@@ -1,7 +1,8 @@
 package com.workshop.dixie.controller;
 
 import com.workshop.dixie.entity.File;
-import com.workshop.dixie.entity.FileDTO;
+import com.workshop.dixie.entity.InputFileDTO;
+import com.workshop.dixie.entity.ResponseFileDTO;
 import com.workshop.dixie.service.CloudService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +22,7 @@ public class CloudController {
     @PostMapping(value = "/file")
     public ResponseEntity<String> uploadFile(@RequestHeader(name = "auth-token") String token,
                                              @RequestParam String filename,
-                                             @ModelAttribute FileDTO file) {
+                                             @ModelAttribute InputFileDTO file) {
         return cloudService.uploadFile(token, filename, file);
     }
 
@@ -45,8 +46,8 @@ public class CloudController {
     }
 
     @GetMapping("/list")
-    public List<FileDTO> getAllFiles(@RequestHeader(name = "auth-token") String token,
-                                     @RequestParam int limit) {
+    public List<ResponseFileDTO> getAllFiles(@RequestHeader(name = "auth-token") String token,
+                                             @RequestParam int limit) {
         return cloudService.getAllFiles(token, limit);
     }
 }
