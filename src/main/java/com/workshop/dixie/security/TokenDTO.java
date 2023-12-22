@@ -1,4 +1,4 @@
-package com.workshop.dixie.entity;
+package com.workshop.dixie.security;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
@@ -11,8 +11,5 @@ import lombok.ToString;
 public class TokenDTO {
     @JsonProperty("auth-token")
     private String authToken;
-
-    public TokenDTO(String authToken) {
-        this.authToken = authToken;
-    }
+    private boolean revoked;
 }

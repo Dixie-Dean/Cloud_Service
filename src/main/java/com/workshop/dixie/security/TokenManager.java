@@ -30,6 +30,7 @@ public class TokenManager {
         System.out.println("New token : " + token);
         return token;
     }
+
     public String getUsernameFromJWT(String token) {
         Claims claims = Jwts.parserBuilder()
                 .setSigningKey(key)

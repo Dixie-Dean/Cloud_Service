@@ -3,8 +3,11 @@ package com.workshop.dixie.service;
 import com.workshop.dixie.entity.CloudUser;
 import com.workshop.dixie.entity.LoginDTO;
 import com.workshop.dixie.entity.RegisterDTO;
-import com.workshop.dixie.entity.TokenDTO;
+import com.workshop.dixie.mapper.TokenMapper;
+import com.workshop.dixie.repository.TokenRepository;
+import com.workshop.dixie.security.Token;
 import com.workshop.dixie.repository.CloudUserRepository;
+import com.workshop.dixie.security.TokenDTO;
 import com.workshop.dixie.security.TokenManager;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,20 +18,28 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class AuthServiceImpl implements AuthService {
     private final CloudUserRepository cloudUserRepository;
+    private final TokenRepository tokenRepository;
     private final PasswordEncoder encoder;
     private final TokenManager tokenManager;
+    private final TokenMapper tokenMapper;
     private final AuthenticationManager authenticationManager;
 
     public AuthServiceImpl(CloudUserRepository cloudUserRepository,
+                           TokenRepository tokenRepository,
                            PasswordEncoder encoder,
                            TokenManager tokenManager,
+                           TokenMapper tokenMapper,
                            AuthenticationManager authenticationManager) {
         this.cloudUserRepository = cloudUserRepository;
+        this.tokenRepository = tokenRepository;
         this.encoder = encoder;
         this.tokenManager = tokenManager;
+        this.tokenMapper = tokenMapper;
         this.authenticationManager = authenticationManager;
     }
 
@@ -59,7 +70,17 @@ public class AuthServiceImpl implements AuthService {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 loginDTO.getLogin(), loginDTO.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        TokenDTO tokenDTO = new TokenDTO(tokenManager.generateToken(authentication));
-        return new ResponseEntity<>(tokenDTO, HttpStatus.OK);
+
+        Token token = new Token(tokenManager.generateToken(authentication), false);
+        tokenRepository.save(token);
+
+        return new ResponseEntity<>(tokenMapper.toTokenDTO(token), HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<String> logout(String authToken) {
+        Optional<Token> token = tokenRepository.findToken(authToken);
+        token.ifPresent(value -> value.setRevoked(true));
+        return new ResponseEntity<>("Success logout", HttpStatus.OK);
     }
 }

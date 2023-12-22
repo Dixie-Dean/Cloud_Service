@@ -2,13 +2,11 @@ package com.workshop.dixie.controller;
 
 import com.workshop.dixie.entity.LoginDTO;
 import com.workshop.dixie.entity.RegisterDTO;
-import com.workshop.dixie.entity.TokenDTO;
+import com.workshop.dixie.security.Token;
+import com.workshop.dixie.security.TokenDTO;
 import com.workshop.dixie.service.AuthServiceImpl;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/cloud")
@@ -27,6 +25,11 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<TokenDTO> login(@RequestBody LoginDTO loginDTO) {
         return authService.login(loginDTO);
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<String> logout(@RequestHeader(name = "auth-token") String token) {
+        return authService.logout(token);
     }
 
 }
