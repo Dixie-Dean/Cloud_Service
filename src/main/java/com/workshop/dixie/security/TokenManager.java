@@ -1,20 +1,26 @@
 package com.workshop.dixie.security;
 
-import io.jsonwebtoken.Claims;
+import com.workshop.dixie.repository.TokenRepository;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
 import java.util.Date;
+import java.util.Optional;
 
 @Service
 public class TokenManager {
     private static final long JWT_EXPIRATION = 70000;
     private static final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
+
+    private final TokenRepository tokenRepository;
+
+    public TokenManager(TokenRepository tokenRepository) {
+        this.tokenRepository = tokenRepository;
+    }
 
     public String generateToken(Authentication authentication) {
         String username = authentication.getName();
@@ -31,24 +37,9 @@ public class TokenManager {
         return token;
     }
 
-    public String getUsernameFromJWT(String token) {
-        Claims claims = Jwts.parserBuilder()
-                .setSigningKey(key)
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
-        return claims.getSubject();
-    }
-
-    public boolean validateToken(String token) {
-        try {
-            Jwts.parserBuilder()
-                    .setSigningKey(key)
-                    .build()
-                    .parseClaimsJws(token);
-            return true;
-        } catch (Exception ex) {
-            throw new AuthenticationCredentialsNotFoundException("Token was expired or incorrect", ex.fillInStackTrace());
-        }
+    public boolean validateToken(String tokenValue) {
+        String[] tokenParts = tokenValue.split(" ");
+        Optional<Token> tokenEntity = tokenRepository.findToken(tokenParts[1]);
+        return tokenEntity.map(Token::isRevoked).orElse(true);
     }
 }

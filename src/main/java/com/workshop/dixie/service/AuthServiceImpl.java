@@ -4,9 +4,9 @@ import com.workshop.dixie.entity.CloudUser;
 import com.workshop.dixie.entity.LoginDTO;
 import com.workshop.dixie.entity.RegisterDTO;
 import com.workshop.dixie.mapper.TokenMapper;
+import com.workshop.dixie.repository.CloudUserRepository;
 import com.workshop.dixie.repository.TokenRepository;
 import com.workshop.dixie.security.Token;
-import com.workshop.dixie.repository.CloudUserRepository;
 import com.workshop.dixie.security.TokenDTO;
 import com.workshop.dixie.security.TokenManager;
 import org.springframework.http.HttpStatus;
@@ -78,9 +78,9 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public ResponseEntity<String> logout(String authToken) {
-        Optional<Token> token = tokenRepository.findToken(authToken);
-        token.ifPresent(value -> value.setRevoked(true));
-        return new ResponseEntity<>("Success logout", HttpStatus.OK);
+    public ResponseEntity<String> logout(String token) {
+        String[] tokenParts = token.split(" ");
+        Optional<String> response = tokenRepository.revokeToken(tokenParts[1]);
+        return response.map(string -> new ResponseEntity<>(string, HttpStatus.OK)).orElseThrow();
     }
 }

@@ -32,9 +32,9 @@ public class CloudServiceImpl implements CloudService {
 
     @Override
     public ResponseEntity<String> uploadFile(String token, String filename, InputFileDTO inputFileDTO) {
-//        if (tokenManager.validateToken(token)) {
-//            return new ResponseEntity<>("Token is expired or incorrect", HttpStatus.UNAUTHORIZED);
-//        }
+        if (tokenManager.validateToken(token)) {
+            return new ResponseEntity<>("Token is expired or incorrect", HttpStatus.UNAUTHORIZED);
+        }
 
         Optional<String> response = cloudFileRepository.uploadFile(
                 UUID.randomUUID().toString(),
@@ -48,9 +48,9 @@ public class CloudServiceImpl implements CloudService {
 
     @Override
     public ResponseEntity<String> deleteFile(String token, String filename) {
-//        if (tokenManager.validateToken(token)) {
-//            return new ResponseEntity<>("Token is expired or incorrect", HttpStatus.UNAUTHORIZED);
-//        }
+        if (tokenManager.validateToken(token)) {
+            return new ResponseEntity<>("Token is expired or incorrect", HttpStatus.UNAUTHORIZED);
+        }
 
         Optional<String> response = cloudFileRepository.deleteFile(filename);
         return response.map(string ->
@@ -60,9 +60,9 @@ public class CloudServiceImpl implements CloudService {
 
     @Override
     public ResponseEntity<ResponseFileDTO> downloadFile(String token, String filename) {
-//        if (tokenManager.validateToken(token)) {
-//            return Optional.empty();
-//        }
+        if (tokenManager.validateToken(token)) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
 
         Optional<File> downloadedFile = cloudFileRepository.downloadFile(filename);
         return downloadedFile.map(file ->
@@ -72,9 +72,9 @@ public class CloudServiceImpl implements CloudService {
 
     @Override
     public ResponseEntity<String> editFileName(String token, String filename, EditFileDTO editFileDTO) {
-//        if (tokenManager.validateToken(token)) {
-//            return new ResponseEntity<>("Token is expired or incorrect", HttpStatus.UNAUTHORIZED);
-//        }
+        if (tokenManager.validateToken(token)) {
+            return new ResponseEntity<>("Token is expired or incorrect", HttpStatus.UNAUTHORIZED);
+        }
 
         Optional<String> response = cloudFileRepository.editFileName(filename, editFileDTO.getName());
         return response.map(string ->
@@ -84,9 +84,9 @@ public class CloudServiceImpl implements CloudService {
 
     @Override
     public List<ResponseFileDTO> getAllFiles(String token, int limit) {
-//        if (tokenManager.validateToken(token)) {
-//            return null;
-//        }
+        if (tokenManager.validateToken(token)) {
+            return null;
+        }
 
         List<File> fileList = cloudFileRepository.getAllFiles(limit);
         List<ResponseFileDTO> fileDtoList = new CopyOnWriteArrayList<>();
