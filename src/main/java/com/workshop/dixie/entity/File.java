@@ -18,9 +18,12 @@ public class File implements Serializable {
     @Id
     private String hash;
 
-    @Column(name = "file_name", nullable = false)
+    @Column(name = "filename", nullable = false)
     private String filename;
 
     @Column(name = "file")
     private String file;
+
+    @Column(name = "username", nullable = false)
+    private String username;
 }

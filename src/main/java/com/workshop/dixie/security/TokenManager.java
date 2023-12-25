@@ -1,6 +1,7 @@
 package com.workshop.dixie.security;
 
 import com.workshop.dixie.repository.TokenRepository;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -15,9 +16,7 @@ import java.util.Optional;
 public class TokenManager {
     private static final long JWT_EXPIRATION = 70000;
     private static final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
-
     private final TokenRepository tokenRepository;
-
     public TokenManager(TokenRepository tokenRepository) {
         this.tokenRepository = tokenRepository;
     }
@@ -27,14 +26,23 @@ public class TokenManager {
         Date currentDate = new Date();
         Date expireDate = new Date(currentDate.getTime() + JWT_EXPIRATION);
 
-        String token = Jwts.builder()
+        return Jwts.builder()
                 .setSubject(username)
                 .setIssuedAt(new Date())
                 .setExpiration(expireDate)
                 .signWith(key, SignatureAlgorithm.HS512)
                 .compact();
-        System.out.println("New token : " + token);
-        return token;
+    }
+
+    public String getUsernameFromJWT(String token) {
+        String[] tokenParts = token.split(" ");
+
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(key.getEncoded())
+                .build()
+                .parseClaimsJws(tokenParts[1])
+                .getBody();
+        return claims.getSubject();
     }
 
     public boolean validateToken(String tokenValue) {

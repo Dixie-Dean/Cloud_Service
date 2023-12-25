@@ -39,6 +39,7 @@ public class CloudServiceImpl implements CloudService {
         Optional<String> response = cloudFileRepository.uploadFile(
                 UUID.randomUUID().toString(),
                 filename,
+                tokenManager.getUsernameFromJWT(token),
                 inputFileDTO.getFile().toString());
 
         return response.map(string ->
@@ -88,13 +89,13 @@ public class CloudServiceImpl implements CloudService {
             return null;
         }
 
-        List<File> fileList = cloudFileRepository.getAllFiles(limit);
+        String username = tokenManager.getUsernameFromJWT(token);
+        List<File> fileList = cloudFileRepository.getAllFiles(limit, username);
         List<ResponseFileDTO> fileDtoList = new CopyOnWriteArrayList<>();
 
         for (File file : fileList) {
             fileDtoList.add(fileMapper.toResponseDTO(file));
         }
-
         return fileDtoList;
     }
 }
