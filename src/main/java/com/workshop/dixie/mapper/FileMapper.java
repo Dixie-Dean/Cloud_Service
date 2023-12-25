@@ -2,7 +2,8 @@ package com.workshop.dixie.mapper;
 
 import com.workshop.dixie.entity.File;
 import com.workshop.dixie.entity.ResponseFileDTO;
-import org.springframework.util.SerializationUtils;
+
+import java.nio.charset.StandardCharsets;
 
 public class FileMapper {
 
@@ -13,10 +14,8 @@ public class FileMapper {
 
         ResponseFileDTO destination = new ResponseFileDTO();
         destination.setFilename(file.getFilename());
-        byte[] bytes = SerializationUtils.serialize(file);
-        if (bytes != null) {
-            destination.setSize(bytes.length);
-        }
+        byte[] bytes = file.getFile().getBytes(StandardCharsets.UTF_8);
+        destination.setSize(bytes.length);
         return destination;
     }
 }
