@@ -1,6 +1,6 @@
 package com.workshop.dixie.service;
 
-import com.workshop.dixie.entity.SecurityUser;
+import com.workshop.dixie.security.SecurityUser;
 import com.workshop.dixie.repository.CloudUserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

@@ -1,5 +1,6 @@
-package com.workshop.dixie.entity;
+package com.workshop.dixie.security;
 
+import com.workshop.dixie.entity.CloudUser;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
