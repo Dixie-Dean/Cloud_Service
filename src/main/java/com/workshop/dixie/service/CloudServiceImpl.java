@@ -4,6 +4,9 @@ import com.workshop.dixie.entity.EditFileDTO;
 import com.workshop.dixie.entity.File;
 import com.workshop.dixie.entity.InputFileDTO;
 import com.workshop.dixie.entity.ResponseFileDTO;
+import com.workshop.dixie.exception.ErrorInputDataException;
+import com.workshop.dixie.exception.InternalServerException;
+import com.workshop.dixie.exception.UnauthorizedException;
 import com.workshop.dixie.mapper.FileMapper;
 import com.workshop.dixie.repository.CloudFileRepository;
 import com.workshop.dixie.security.TokenManager;
@@ -31,9 +34,12 @@ public class CloudServiceImpl implements CloudService {
     }
 
     @Override
-    public ResponseEntity<String> uploadFile(String token, String filename, InputFileDTO inputFileDTO) {
+    public ResponseEntity<String> uploadFile(String token, String filename, InputFileDTO inputFileDTO)
+            throws InternalServerException, UnauthorizedException, ErrorInputDataException {
         if (tokenManager.validateToken(token)) {
-            return new ResponseEntity<>("Token is expired or incorrect", HttpStatus.UNAUTHORIZED);
+            throw new UnauthorizedException("Token is expired or incorrect");
+        } else if (inputFileDTO.getFile().isEmpty()) {
+            throw new ErrorInputDataException("Incorrect input data");
         }
 
         Optional<String> response = cloudFileRepository.uploadFile(
@@ -43,56 +49,63 @@ public class CloudServiceImpl implements CloudService {
                 inputFileDTO.getFile().toString());
 
         return response.map(string ->
-                new ResponseEntity<>(string, HttpStatus.OK)).orElseGet(() ->
-                new ResponseEntity<>("Error Input Data", HttpStatus.BAD_REQUEST));
+                new ResponseEntity<>(string, HttpStatus.OK)).orElseThrow(() ->
+                new InternalServerException("Unable to upload file"));
     }
 
     @Override
-    public ResponseEntity<String> deleteFile(String token, String filename) {
+    public ResponseEntity<String> deleteFile(String token, String filename)
+            throws UnauthorizedException, InternalServerException {
         if (tokenManager.validateToken(token)) {
-            return new ResponseEntity<>("Token is expired or incorrect", HttpStatus.UNAUTHORIZED);
+            throw new UnauthorizedException("Token is expired or incorrect");
         }
 
         Optional<String> response = cloudFileRepository.deleteFile(filename);
         return response.map(string ->
-                new ResponseEntity<>(string, HttpStatus.OK)).orElseGet(() ->
-                new ResponseEntity<>("Error Input Data", HttpStatus.BAD_REQUEST));
+                new ResponseEntity<>(string, HttpStatus.OK)).orElseThrow(() ->
+                new InternalServerException("Unable to delete file"));
     }
 
     @Override
-    public ResponseEntity<ResponseFileDTO> downloadFile(String token, String filename) {
+    public ResponseEntity<ResponseFileDTO> downloadFile(String token, String filename)
+            throws InternalServerException, UnauthorizedException {
         if (tokenManager.validateToken(token)) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            throw new UnauthorizedException("Token is expired or incorrect");
         }
 
         Optional<File> downloadedFile = cloudFileRepository.downloadFile(filename);
         return downloadedFile.map(file ->
-                new ResponseEntity<>(fileMapper.toResponseDTO(file), HttpStatus.OK))
-                .orElseThrow();
+                new ResponseEntity<>(fileMapper.toResponseDTO(file), HttpStatus.OK)).orElseThrow(() ->
+                new InternalServerException("Unable to download file"));
     }
 
     @Override
-    public ResponseEntity<String> editFileName(String token, String filename, EditFileDTO editFileDTO) {
+    public ResponseEntity<String> editFileName(String token, String filename, EditFileDTO editFileDTO)
+            throws InternalServerException, UnauthorizedException {
         if (tokenManager.validateToken(token)) {
-            return new ResponseEntity<>("Token is expired or incorrect", HttpStatus.UNAUTHORIZED);
+            throw new UnauthorizedException("Token is expired or incorrect");
         }
 
         Optional<String> response = cloudFileRepository.editFileName(filename, editFileDTO.getName());
+
         return response.map(string ->
-                new ResponseEntity<>(string, HttpStatus.OK)).orElseGet(() ->
-                new ResponseEntity<>("Error Input Data", HttpStatus.BAD_REQUEST));
+                new ResponseEntity<>(string, HttpStatus.OK)).orElseThrow(() ->
+                new InternalServerException("Unable to edit filename"));
     }
 
     @Override
-    public List<ResponseFileDTO> getAllFiles(String token, int limit) {
+    public List<ResponseFileDTO> getAllFiles(String token, int limit)
+            throws UnauthorizedException, ErrorInputDataException {
         if (tokenManager.validateToken(token)) {
-            return null;
+            throw new UnauthorizedException("Token is expired or incorrect");
+        } else if (limit < 0) {
+            throw new ErrorInputDataException("Incorrect input data");
         }
 
         String username = tokenManager.getUsernameFromJWT(token);
         List<File> fileList = cloudFileRepository.getAllFiles(limit, username);
-        List<ResponseFileDTO> fileDtoList = new CopyOnWriteArrayList<>();
 
+        List<ResponseFileDTO> fileDtoList = new CopyOnWriteArrayList<>();
         for (File file : fileList) {
             fileDtoList.add(fileMapper.toResponseDTO(file));
         }
