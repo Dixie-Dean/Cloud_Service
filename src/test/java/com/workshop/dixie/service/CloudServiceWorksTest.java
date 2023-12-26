@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public class CloudServiceTest {
+public class CloudServiceWorksTest {
     private final static String TEST_TOKEN = "Bearer eyJhbGciOiJIUzUxMiJ9";
     private final static String USERNAME = "User";
     private static CloudFileRepository cloudFileRepository;
@@ -34,7 +34,7 @@ public class CloudServiceTest {
             String.valueOf(UUID.randomUUID()), "Test File", "Content", USERNAME);
 
     @BeforeAll
-    public static void prep() {
+    public static void beforeAll() {
         Token token = new Token(TEST_TOKEN, false);
 
         TokenRepository tokenRepository = Mockito.mock(TokenRepository.class);
