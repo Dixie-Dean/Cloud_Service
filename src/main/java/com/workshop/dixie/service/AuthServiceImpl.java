@@ -12,6 +12,7 @@ import com.workshop.dixie.security.TokenManager;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -64,7 +65,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public ResponseEntity<TokenDTO> login(LoginDTO loginDTO) {
         if (!cloudUserRepository.existsByEmail(loginDTO.getLogin())) {
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+            throw new BadCredentialsException("Incorrect login or password");
         }
 
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
