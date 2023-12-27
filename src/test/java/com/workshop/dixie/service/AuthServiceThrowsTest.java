@@ -15,7 +15,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 public class AuthServiceThrowsTest {
-    private static final String TEST_LOGIN = "UserLogin";
+    private static final String TEST_LOGIN_EMAIL = "UserLoginEmail";
     private static final String TEST_PASSWORD = "UserPassword";
     private static AuthService authService;
 
@@ -39,7 +39,7 @@ public class AuthServiceThrowsTest {
     @Test
     public void loginThrowsBadCredentials() {
         LoginDTO loginDTO = new LoginDTO();
-        loginDTO.setLogin(TEST_LOGIN);
+        loginDTO.setLogin(TEST_LOGIN_EMAIL);
         loginDTO.setPassword(TEST_PASSWORD);
 
         Executable executable = () -> authService.login(loginDTO);
