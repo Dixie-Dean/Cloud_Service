@@ -18,7 +18,7 @@ public class SecurityUser implements UserDetails {
 
     @Override
     public String getUsername() {
-        return cloudUser.getUsername();
+        return cloudUser.getEmail();
     }
 
     @Override

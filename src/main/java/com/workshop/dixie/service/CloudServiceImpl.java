@@ -45,7 +45,7 @@ public class CloudServiceImpl implements CloudService {
         Optional<String> response = cloudFileRepository.uploadFile(
                 UUID.randomUUID().toString(),
                 filename,
-                tokenManager.getUsernameFromJWT(token),
+                tokenManager.extractEmailFromJwt(token),
                 inputFileDTO.getFile().toString());
 
         return response.map(string ->
@@ -102,7 +102,7 @@ public class CloudServiceImpl implements CloudService {
             throw new ErrorInputDataException("Incorrect input data");
         }
 
-        String username = tokenManager.getUsernameFromJWT(token);
+        String username = tokenManager.extractEmailFromJwt(token);
         List<File> fileList = cloudFileRepository.getAllFiles(limit, username);
 
         List<ResponseFileDTO> fileDtoList = new CopyOnWriteArrayList<>();

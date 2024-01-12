@@ -4,45 +4,75 @@ import com.workshop.dixie.repository.TokenRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
-import java.util.Date;
-import java.util.Optional;
+import java.util.*;
+import java.util.function.Function;
 
 @Service
 public class TokenManager {
-    private static final long JWT_EXPIRATION = 70000;
-    private static final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
+    private static final long JWT_EXPIRATION = 1000 * 60 * 24;
+    private static final String SECRET_KEY = "514831D82AC98B1A8B8A41D4DBE8A";
     private final TokenRepository tokenRepository;
+
     public TokenManager(TokenRepository tokenRepository) {
         this.tokenRepository = tokenRepository;
     }
 
-    public String generateToken(Authentication authentication) {
-        String username = authentication.getName();
-        Date currentDate = new Date();
-        Date expireDate = new Date(currentDate.getTime() + JWT_EXPIRATION);
+    public String generateToken(UserDetails userDetails) {
+        return generateToken(new HashMap<>(), userDetails);
+    }
 
-        return Jwts.builder()
-                .setSubject(username)
-                .setIssuedAt(new Date())
-                .setExpiration(expireDate)
-                .signWith(key, SignatureAlgorithm.HS512)
+    public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
+        return Jwts
+                .builder()
+                .setClaims(extraClaims)
+                .setSubject(userDetails.getUsername())
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + JWT_EXPIRATION))
+                .signWith(getSigningKey(), SignatureAlgorithm.HS512)
                 .compact();
     }
 
-    public String getUsernameFromJWT(String token) {
-        String[] tokenParts = token.split(" ");
+    public boolean isTokenValid(String token, UserDetails userDetails) {
+        final String username = extractEmailFromJwt(token);
+        return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
+    }
 
-        Claims claims = Jwts.parserBuilder()
-                .setSigningKey(key.getEncoded())
+    private boolean isTokenExpired(String token) {
+        return extractExpiration(token).before(new Date());
+    }
+
+    private Date extractExpiration(String token) {
+        return extractClaim(token, Claims::getExpiration);
+    }
+
+    public String extractEmailFromJwt(String token) {
+        return extractClaim(token, Claims::getSubject);
+    }
+
+    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
+        final Claims claims = extractAllClaims(token);
+        return claimsResolver.apply(claims);
+    }
+
+    private Claims extractAllClaims(String token) {
+        return Jwts
+                .parserBuilder()
+                .setSigningKey(getSigningKey())
                 .build()
-                .parseClaimsJws(tokenParts[1])
+                .parseClaimsJws(token)
                 .getBody();
-        return claims.getSubject();
+    }
+
+    private Key getSigningKey() {
+        byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
+        return Keys.hmacShaKeyFor(keyBytes);
     }
 
     public boolean validateToken(String tokenValue) {
