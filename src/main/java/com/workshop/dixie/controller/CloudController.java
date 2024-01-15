@@ -21,7 +21,7 @@ public class CloudController {
         this.cloudService = cloudService;
     }
 
-    @PostMapping(value = "/file")
+    @PostMapping("/file")
     public ResponseEntity<String> uploadFile(@RequestHeader(name = "auth-token") String token,
                                              @RequestParam String filename,
                                              @ModelAttribute InputFileDTO file)

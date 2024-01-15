@@ -40,7 +40,7 @@ public class TokenManager {
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + JWT_EXPIRATION))
-                .signWith(getSigningKey(), SignatureAlgorithm.HS512)
+                .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
 
@@ -80,9 +80,9 @@ public class TokenManager {
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public boolean validateToken(String tokenValue) {
-        String[] tokenParts = tokenValue.split(" ");
-        Optional<Token> tokenEntity = tokenRepository.findToken(tokenParts[1]);
-        return tokenEntity.map(Token::isRevoked).orElse(true);
-    }
+//    public boolean validateToken(String tokenValue) {
+////        String[] tokenParts = tokenValue.split(" ");
+//        Optional<Token> tokenEntity = tokenRepository.findToken(tokenValue);
+//        return tokenEntity.map(Token::isRevoked).orElse(true);
+//    }
 }
