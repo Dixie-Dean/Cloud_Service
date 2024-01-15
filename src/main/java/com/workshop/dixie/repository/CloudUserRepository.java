@@ -9,8 +9,6 @@ import java.util.Optional;
 @Repository
 public interface CloudUserRepository extends JpaRepository<CloudUser, Long> {
 
-    Optional<CloudUser> findCloudUserByUsername(String username);
-
     Optional<CloudUser> findCloudUserByEmail(String email);
 
     boolean existsByEmail(String email);

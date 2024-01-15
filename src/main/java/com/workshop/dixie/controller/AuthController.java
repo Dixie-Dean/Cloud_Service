@@ -2,7 +2,6 @@ package com.workshop.dixie.controller;
 
 import com.workshop.dixie.entity.LoginDTO;
 import com.workshop.dixie.entity.RegisterDTO;
-import com.workshop.dixie.security.Token;
 import com.workshop.dixie.security.TokenDTO;
 import com.workshop.dixie.service.AuthServiceImpl;
 import org.springframework.http.ResponseEntity;

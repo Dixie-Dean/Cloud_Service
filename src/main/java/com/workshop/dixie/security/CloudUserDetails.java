@@ -8,11 +8,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Arrays;
 import java.util.Collection;
 
-public class SecurityUser implements UserDetails {
+public class CloudUserDetails implements UserDetails {
 
     private final CloudUser cloudUser;
 
-    public SecurityUser(CloudUser cloudUser) {
+    public CloudUserDetails(CloudUser cloudUser) {
         this.cloudUser = cloudUser;
     }
 

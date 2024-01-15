@@ -6,6 +6,7 @@ import com.workshop.dixie.entity.RegisterDTO;
 import com.workshop.dixie.mapper.TokenMapper;
 import com.workshop.dixie.repository.CloudUserRepository;
 import com.workshop.dixie.repository.TokenRepository;
+import com.workshop.dixie.security.CloudUserDetails;
 import com.workshop.dixie.security.Token;
 import com.workshop.dixie.security.TokenDTO;
 import com.workshop.dixie.security.TokenManager;
@@ -14,8 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -68,11 +67,13 @@ public class AuthServiceImpl implements AuthService {
             throw new BadCredentialsException("Incorrect login or password");
         }
 
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                loginDTO.getLogin(), loginDTO.getPassword()));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                loginDTO.getLogin(), loginDTO.getPassword())
+        );
 
-        Token token = new Token(tokenManager.generateToken(authentication), false);
+        Optional<CloudUser> cloudUser = cloudUserRepository.findCloudUserByEmail(loginDTO.getLogin());
+        CloudUserDetails cloudUserDetails = new CloudUserDetails(cloudUser.get());
+        Token token = new Token(tokenManager.generateToken(cloudUserDetails), false);
         tokenRepository.save(token);
 
         return new ResponseEntity<>(tokenMapper.toTokenDTO(token), HttpStatus.OK);

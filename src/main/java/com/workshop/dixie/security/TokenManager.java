@@ -6,18 +6,23 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 
 @Service
 public class TokenManager {
+
     private static final long JWT_EXPIRATION = 1000 * 60 * 24;
-    private static final String SECRET_KEY = "514831D82AC98B1A8B8A41D4DBE8A";
+
+    private static final String SECRET_KEY = "404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970";
+
     private final TokenRepository tokenRepository;
 
     public TokenManager(TokenRepository tokenRepository) {
