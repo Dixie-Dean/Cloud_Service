@@ -17,7 +17,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 public class JavaConfig {
-
     private final CloudUserRepository repository;
 
     public JavaConfig(CloudUserRepository repository) {
