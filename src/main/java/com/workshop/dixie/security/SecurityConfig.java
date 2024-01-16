@@ -39,8 +39,8 @@ public class SecurityConfig implements WebMvcConfigurer {
     @Bean
     public SecurityFilterChain registerSecurityFilterChain(HttpSecurity http) throws Exception {
         return http
+                .cors((cors) -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
-                .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers("/cloud/login").permitAll();
                     auth.requestMatchers("/cloud/register").permitAll();
