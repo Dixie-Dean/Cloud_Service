@@ -1,0 +1,16 @@
+version: '1'
+
+services:
+  web:
+    build: ./
+
+    image: cloud_service
+
+    restart: always
+
+    stdin_open: true
+
+    tty: true
+
+    ports:
+      - 8080:8080
