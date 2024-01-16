@@ -80,9 +80,8 @@ public class TokenManager {
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-//    public boolean validateToken(String tokenValue) {
-////        String[] tokenParts = tokenValue.split(" ");
-//        Optional<Token> tokenEntity = tokenRepository.findToken(tokenValue);
-//        return tokenEntity.map(Token::isRevoked).orElse(true);
-//    }
+    public boolean validateToken(String tokenValue) {
+        Optional<Token> tokenEntity = tokenRepository.findToken(tokenValue);
+        return tokenEntity.map(Token::isRevoked).orElse(true);
+    }
 }
