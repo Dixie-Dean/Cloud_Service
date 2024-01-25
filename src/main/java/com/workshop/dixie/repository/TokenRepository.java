@@ -1,6 +1,6 @@
 package com.workshop.dixie.repository;
 
-import com.workshop.dixie.security.Token;
+import com.workshop.dixie.entity.security.Token;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

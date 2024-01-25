@@ -1,4 +1,4 @@
-package com.workshop.dixie.security;
+package com.workshop.dixie.entity.security;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

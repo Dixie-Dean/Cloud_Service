@@ -1,16 +1,16 @@
 package com.workshop.dixie.service;
 
-import com.workshop.dixie.entity.EditFileDTO;
+import com.workshop.dixie.dto.EditFileDTO;
 import com.workshop.dixie.entity.File;
-import com.workshop.dixie.entity.InputFileDTO;
-import com.workshop.dixie.entity.ResponseFileDTO;
+import com.workshop.dixie.dto.InputFileDTO;
+import com.workshop.dixie.dto.ResponseFileDTO;
 import com.workshop.dixie.exception.ErrorInputDataException;
 import com.workshop.dixie.exception.InternalServerException;
 import com.workshop.dixie.exception.UnauthorizedException;
 import com.workshop.dixie.mapper.FileMapper;
 import com.workshop.dixie.repository.CloudFileRepository;
 import com.workshop.dixie.repository.TokenRepository;
-import com.workshop.dixie.security.Token;
+import com.workshop.dixie.entity.security.Token;
 import com.workshop.dixie.security.TokenManager;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;

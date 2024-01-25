@@ -1,7 +1,7 @@
 package com.workshop.dixie.mapper;
 
-import com.workshop.dixie.security.Token;
-import com.workshop.dixie.security.TokenDTO;
+import com.workshop.dixie.entity.security.Token;
+import com.workshop.dixie.dto.TokenDTO;
 
 public class TokenMapper {
 

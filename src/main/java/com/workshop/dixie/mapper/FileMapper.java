@@ -1,7 +1,7 @@
 package com.workshop.dixie.mapper;
 
 import com.workshop.dixie.entity.File;
-import com.workshop.dixie.entity.ResponseFileDTO;
+import com.workshop.dixie.dto.ResponseFileDTO;
 
 import java.nio.charset.StandardCharsets;
 

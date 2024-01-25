@@ -1,4 +1,4 @@
-package com.workshop.dixie.entity;
+package com.workshop.dixie.dto;
 
 import lombok.Getter;
 import lombok.Setter;

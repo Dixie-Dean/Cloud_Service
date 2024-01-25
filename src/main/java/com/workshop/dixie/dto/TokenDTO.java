@@ -1,4 +1,4 @@
-package com.workshop.dixie.security;
+package com.workshop.dixie.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;

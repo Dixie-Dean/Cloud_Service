@@ -1,8 +1,8 @@
 package com.workshop.dixie.service;
 
-import com.workshop.dixie.entity.EditFileDTO;
-import com.workshop.dixie.entity.InputFileDTO;
-import com.workshop.dixie.entity.ResponseFileDTO;
+import com.workshop.dixie.dto.EditFileDTO;
+import com.workshop.dixie.dto.InputFileDTO;
+import com.workshop.dixie.dto.ResponseFileDTO;
 import com.workshop.dixie.exception.ErrorInputDataException;
 import com.workshop.dixie.exception.InternalServerException;
 import com.workshop.dixie.exception.UnauthorizedException;

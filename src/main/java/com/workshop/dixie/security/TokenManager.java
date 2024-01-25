@@ -1,5 +1,6 @@
 package com.workshop.dixie.security;
 
+import com.workshop.dixie.entity.security.Token;
 import com.workshop.dixie.repository.TokenRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

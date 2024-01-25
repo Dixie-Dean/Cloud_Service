@@ -1,6 +1,6 @@
 package com.workshop.dixie.service;
 
-import com.workshop.dixie.entity.LoginDTO;
+import com.workshop.dixie.dto.LoginDTO;
 import com.workshop.dixie.mapper.TokenMapper;
 import com.workshop.dixie.repository.CloudUserRepository;
 import com.workshop.dixie.repository.TokenRepository;

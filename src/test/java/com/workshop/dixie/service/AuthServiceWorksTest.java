@@ -1,13 +1,13 @@
 package com.workshop.dixie.service;
 
 import com.workshop.dixie.entity.CloudUser;
-import com.workshop.dixie.entity.LoginDTO;
-import com.workshop.dixie.entity.RegisterDTO;
+import com.workshop.dixie.dto.LoginDTO;
+import com.workshop.dixie.dto.RegisterDTO;
 import com.workshop.dixie.mapper.TokenMapper;
 import com.workshop.dixie.repository.CloudUserRepository;
 import com.workshop.dixie.repository.TokenRepository;
-import com.workshop.dixie.security.Token;
-import com.workshop.dixie.security.TokenDTO;
+import com.workshop.dixie.entity.security.Token;
+import com.workshop.dixie.dto.TokenDTO;
 import com.workshop.dixie.security.TokenManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
