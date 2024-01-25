@@ -33,7 +33,7 @@ public class CloudUser {
     @Column(name = "lastname", nullable = false)
     private String lastname;
 
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
     @Column(name = "password", nullable = false)
