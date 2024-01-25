@@ -1,6 +1,7 @@
 package com.workshop.dixie.service;
 
 import com.workshop.dixie.dto.EditFileDTO;
+import com.workshop.dixie.entity.CloudUser;
 import com.workshop.dixie.entity.File;
 import com.workshop.dixie.dto.InputFileDTO;
 import com.workshop.dixie.dto.ResponseFileDTO;
@@ -30,12 +31,14 @@ public class CloudServiceWorksTest {
     private static CloudFileRepository cloudFileRepository;
     private static final FileMapper fileMapper = new FileMapper();
     private static CloudServiceImpl cloudService;
-    private static final File file = new File(
-            String.valueOf(UUID.randomUUID()), "Test File", "Content", USERNAME);
+    private static File file;
 
     @BeforeAll
     public static void beforeAll() {
         Token token = new Token(TEST_TOKEN, false);
+
+        CloudUser mockedCloudUser = Mockito.mock(CloudUser.class);
+        file = new File(String.valueOf(UUID.randomUUID()), "Test File", "Content", mockedCloudUser);
 
         TokenRepository tokenRepository = Mockito.mock(TokenRepository.class);
         Mockito.when(tokenRepository.findToken(Mockito.anyString())).thenReturn(Optional.of(token));

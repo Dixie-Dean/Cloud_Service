@@ -1,6 +1,7 @@
 package com.workshop.dixie.service;
 
 import com.workshop.dixie.dto.EditFileDTO;
+import com.workshop.dixie.entity.CloudUser;
 import com.workshop.dixie.entity.File;
 import com.workshop.dixie.dto.InputFileDTO;
 import com.workshop.dixie.exception.ErrorInputDataException;
@@ -22,14 +23,15 @@ import java.util.UUID;
 
 public class CloudServiceThrowsTest {
     private static final String TEST_TOKEN = "Bearer eyJhbGciOiJIUzUxMiJ9";
-    private static final String USERNAME = "User";
     private static TokenManager tokenManager;
     private static CloudServiceImpl cloudService;
-    private static final File file = new File(
-            String.valueOf(UUID.randomUUID()), "Test File", "Content", USERNAME);
+    private static File file;
 
     @BeforeAll
     public static void beforeAll() {
+        CloudUser mockedCloudUser = Mockito.mock(CloudUser.class);
+        file = new File(String.valueOf(UUID.randomUUID()), "Test File", "Content", mockedCloudUser);
+
         tokenManager = Mockito.mock(TokenManager.class);
 
         CloudFileRepository cloudFileRepository = Mockito.mock(CloudFileRepository.class);
