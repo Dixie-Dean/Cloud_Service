@@ -6,7 +6,5 @@ import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface TokenMapper {
-
     TokenDTO turnIntoDTO(Token token);
-
 }

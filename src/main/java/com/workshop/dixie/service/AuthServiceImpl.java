@@ -29,7 +29,6 @@ public class AuthServiceImpl implements AuthService {
     private final PasswordEncoder encoder;
     private final TokenManager tokenManager;
     private final AuthenticationManager authenticationManager;
-
     private final TokenMapper tokenMapper;
 
     public AuthServiceImpl(CloudUserRepository cloudUserRepository,

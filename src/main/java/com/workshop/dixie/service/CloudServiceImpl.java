@@ -61,7 +61,7 @@ public class CloudServiceImpl implements CloudService {
     public ResponseEntity<ResponseFileDTO> downloadFile(String filename) throws InternalServerException {
         Optional<File> downloadedFile = cloudFileRepository.downloadFile(filename);
         return downloadedFile.map(file ->
-                new ResponseEntity<>(fileMapper.toResponseDTO(file), HttpStatus.OK)).orElseThrow(() ->
+                new ResponseEntity<>(fileMapper.turnIntoDTO(file), HttpStatus.OK)).orElseThrow(() ->
                 new InternalServerException("Unable to download file"));
     }
 
@@ -84,7 +84,7 @@ public class CloudServiceImpl implements CloudService {
 
         List<ResponseFileDTO> fileDtoList = new CopyOnWriteArrayList<>();
         for (File file : fileList) {
-            fileDtoList.add(fileMapper.toResponseDTO(file));
+            fileDtoList.add(fileMapper.turnIntoDTO(file));
         }
         return fileDtoList;
     }

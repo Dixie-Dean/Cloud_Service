@@ -6,11 +6,8 @@ import com.workshop.dixie.entity.CloudUser;
 import com.workshop.dixie.entity.File;
 import com.workshop.dixie.exception.ErrorInputDataException;
 import com.workshop.dixie.exception.InternalServerException;
-import com.workshop.dixie.exception.UnauthorizedException;
 import com.workshop.dixie.mapper.FileMapper;
 import com.workshop.dixie.repository.CloudFileRepository;
-import com.workshop.dixie.security.TokenManager;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -22,17 +19,14 @@ import java.util.Optional;
 import java.util.UUID;
 
 public class CloudServiceThrowsTest {
-    private static final String TEST_TOKEN = "Bearer eyJhbGciOiJIUzUxMiJ9";
-    private static TokenManager tokenManager;
     private static CloudServiceImpl cloudService;
+    private static FileMapper fileMapper;
     private static File file;
 
     @BeforeAll
     public static void beforeAll() {
         CloudUser mockedCloudUser = Mockito.mock(CloudUser.class);
         file = new File(String.valueOf(UUID.randomUUID()), "Test File", "Content", mockedCloudUser);
-
-        tokenManager = Mockito.mock(TokenManager.class);
 
         CloudFileRepository cloudFileRepository = Mockito.mock(CloudFileRepository.class);
         Mockito.when(cloudFileRepository.uploadFile(
@@ -45,13 +39,8 @@ public class CloudServiceThrowsTest {
         Mockito.when(cloudFileRepository.downloadFile(Mockito.anyString()))
                 .thenReturn(Optional.empty());
 
-        FileMapper fileMapper = new FileMapper();
-        cloudService = new CloudServiceImpl(cloudFileRepository, fileMapper);
-    }
 
-    @AfterEach
-    public void afterEach() {
-        Mockito.when(tokenManager.validateToken(TEST_TOKEN)).thenReturn(false);
+        cloudService = new CloudServiceImpl(cloudFileRepository, fileMapper);
     }
 
     @Test

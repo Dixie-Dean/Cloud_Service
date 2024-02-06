@@ -22,7 +22,7 @@ import java.util.UUID;
 public class CloudServiceWorksTest {
     private final static String USERNAME = "User";
     private static CloudFileRepository cloudFileRepository;
-    private static final FileMapper fileMapper = new FileMapper();
+    private static FileMapper fileMapper;
     private static CloudServiceImpl cloudService;
     private static File file;
 
@@ -71,7 +71,7 @@ public class CloudServiceWorksTest {
 
     @Test
     public void downloadOK() throws InternalServerException {
-        ResponseEntity<ResponseFileDTO> expected = new ResponseEntity<>(fileMapper.toResponseDTO(file), HttpStatus.OK);
+        ResponseEntity<ResponseFileDTO> expected = new ResponseEntity<>(fileMapper.turnIntoDTO(file), HttpStatus.OK);
         ResponseEntity<ResponseFileDTO> actual = cloudService.downloadFile(file.getFilename());
 
         Assertions.assertEquals(expected.getStatusCode(), actual.getStatusCode());
