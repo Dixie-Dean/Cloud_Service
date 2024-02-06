@@ -23,31 +23,31 @@ public class CloudController {
 
     @PostMapping("/file")
     public ResponseEntity<String> uploadFile(@RequestParam String filename, @ModelAttribute InputFileDTO file)
-            throws ErrorInputDataException, InternalServerException, UnauthorizedException {
+            throws ErrorInputDataException, InternalServerException {
         return cloudService.uploadFile(filename, file);
     }
 
     @DeleteMapping("/file")
     public ResponseEntity<String> deleteFile(@RequestParam String filename)
-            throws InternalServerException, UnauthorizedException {
+            throws InternalServerException {
         return cloudService.deleteFile(filename);
     }
 
     @GetMapping("/file")
     public ResponseEntity<ResponseFileDTO> downloadFile(@RequestParam String filename)
-            throws InternalServerException, UnauthorizedException {
+            throws InternalServerException {
         return cloudService.downloadFile(filename);
     }
 
     @PutMapping("/file")
     public ResponseEntity<String> editFileName(@RequestParam String filename, @RequestBody EditFileDTO editFileDTO)
-            throws InternalServerException, UnauthorizedException {
+            throws InternalServerException {
         return cloudService.editFileName(filename, editFileDTO);
     }
 
     @GetMapping("/list")
     public List<ResponseFileDTO> getAllFiles(@RequestParam int limit)
-            throws UnauthorizedException, ErrorInputDataException, InternalServerException {
+            throws ErrorInputDataException, InternalServerException {
         return cloudService.getAllFiles(limit);
     }
 }

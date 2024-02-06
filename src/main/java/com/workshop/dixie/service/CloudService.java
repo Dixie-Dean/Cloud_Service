@@ -12,13 +12,13 @@ import org.springframework.security.authentication.BadCredentialsException;
 import java.util.List;
 
 public interface CloudService {
-    ResponseEntity<String> uploadFile(String filename, InputFileDTO inputFileDTO) throws InternalServerException, UnauthorizedException, BadCredentialsException, ErrorInputDataException;
+    ResponseEntity<String> uploadFile(String filename, InputFileDTO inputFileDTO) throws InternalServerException, BadCredentialsException, ErrorInputDataException;
 
-    ResponseEntity<String> deleteFile(String filename) throws UnauthorizedException, InternalServerException;
+    ResponseEntity<String> deleteFile(String filename) throws InternalServerException;
 
-    ResponseEntity<ResponseFileDTO> downloadFile(String filename) throws InternalServerException, UnauthorizedException;
+    ResponseEntity<ResponseFileDTO> downloadFile(String filename) throws InternalServerException;
 
-    ResponseEntity<String> editFileName(String filename, EditFileDTO editFileDTO) throws InternalServerException, UnauthorizedException;
+    ResponseEntity<String> editFileName(String filename, EditFileDTO editFileDTO) throws InternalServerException;
 
-    List<ResponseFileDTO> getAllFiles(int limit) throws UnauthorizedException, InternalServerException, ErrorInputDataException;
+    List<ResponseFileDTO> getAllFiles(int limit) throws InternalServerException, ErrorInputDataException;
 }
