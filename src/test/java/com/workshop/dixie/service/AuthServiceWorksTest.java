@@ -1,13 +1,13 @@
 package com.workshop.dixie.service;
 
-import com.workshop.dixie.entity.CloudUser;
 import com.workshop.dixie.dto.LoginDTO;
 import com.workshop.dixie.dto.RegisterDTO;
+import com.workshop.dixie.dto.TokenDTO;
+import com.workshop.dixie.entity.CloudUser;
+import com.workshop.dixie.entity.security.Token;
 import com.workshop.dixie.mapper.TokenMapper;
 import com.workshop.dixie.repository.CloudUserRepository;
 import com.workshop.dixie.repository.TokenRepository;
-import com.workshop.dixie.entity.security.Token;
-import com.workshop.dixie.dto.TokenDTO;
 import com.workshop.dixie.security.TokenManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -46,13 +46,11 @@ public class AuthServiceWorksTest {
         TokenManager tokenManager = Mockito.mock(TokenManager.class);
         Mockito.when(tokenManager.generateToken(Mockito.any())).thenReturn(TEST_TOKEN);
 
-        tokenMapper = new TokenMapper();
         AuthenticationManager authenticationManager = Mockito.mock(AuthenticationManager.class);
 
         authService = new AuthServiceImpl(
-                cloudUserRepository, tokenRepository,
-                encoder, tokenManager, tokenMapper,
-                authenticationManager);
+                cloudUserRepository, tokenRepository, encoder,
+                tokenManager, authenticationManager, tokenMapper);
     }
 
     @AfterEach
@@ -104,7 +102,7 @@ public class AuthServiceWorksTest {
         Token token = new Token(TEST_TOKEN, TEST_USERNAME);
 
         ResponseEntity<TokenDTO> expectedTokenDTOResponseEntity = new ResponseEntity<>(
-                tokenMapper.toTokenDTO(token), HttpStatus.OK);
+                tokenMapper.turnIntoDTO(token), HttpStatus.OK);
         String expected = Objects.requireNonNull(expectedTokenDTOResponseEntity.getBody()).getAuthToken();
 
         ResponseEntity<TokenDTO> actualTokenDTOResponseEntity = authService.login(loginDTO);

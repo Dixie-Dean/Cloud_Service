@@ -1,14 +1,14 @@
 package com.workshop.dixie.service;
 
-import com.workshop.dixie.entity.CloudUser;
 import com.workshop.dixie.dto.LoginDTO;
 import com.workshop.dixie.dto.RegisterDTO;
+import com.workshop.dixie.dto.TokenDTO;
+import com.workshop.dixie.entity.CloudUser;
+import com.workshop.dixie.entity.security.Token;
 import com.workshop.dixie.mapper.TokenMapper;
 import com.workshop.dixie.repository.CloudUserRepository;
 import com.workshop.dixie.repository.TokenRepository;
 import com.workshop.dixie.security.CloudUserDetails;
-import com.workshop.dixie.entity.security.Token;
-import com.workshop.dixie.dto.TokenDTO;
 import com.workshop.dixie.security.TokenManager;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,21 +28,22 @@ public class AuthServiceImpl implements AuthService {
     private final TokenRepository tokenRepository;
     private final PasswordEncoder encoder;
     private final TokenManager tokenManager;
-    private final TokenMapper tokenMapper;
     private final AuthenticationManager authenticationManager;
+
+    private final TokenMapper tokenMapper;
 
     public AuthServiceImpl(CloudUserRepository cloudUserRepository,
                            TokenRepository tokenRepository,
                            PasswordEncoder encoder,
                            TokenManager tokenManager,
-                           TokenMapper tokenMapper,
-                           AuthenticationManager authenticationManager) {
+                           AuthenticationManager authenticationManager,
+                           TokenMapper tokenMapper) {
         this.cloudUserRepository = cloudUserRepository;
         this.tokenRepository = tokenRepository;
         this.encoder = encoder;
         this.tokenManager = tokenManager;
-        this.tokenMapper = tokenMapper;
         this.authenticationManager = authenticationManager;
+        this.tokenMapper = tokenMapper;
     }
 
     @Override
@@ -77,7 +78,7 @@ public class AuthServiceImpl implements AuthService {
         Token token = new Token(tokenManager.generateToken(cloudUserDetails), loginDTO.getLogin());
         tokenRepository.save(token);
 
-        return new ResponseEntity<>(tokenMapper.toTokenDTO(token), HttpStatus.OK);
+        return new ResponseEntity<>(tokenMapper.turnIntoDTO(token), HttpStatus.OK);
     }
 
     @Override

@@ -17,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class AuthServiceThrowsTest {
     private static final String TEST_LOGIN_EMAIL = "UserLoginEmail";
     private static final String TEST_PASSWORD = "UserPassword";
+    private static TokenMapper tokenMapper;
     private static AuthService authService;
 
     @BeforeAll
@@ -27,13 +28,11 @@ public class AuthServiceThrowsTest {
         TokenRepository tokenRepository = Mockito.mock(TokenRepository.class);
         PasswordEncoder encoder = Mockito.mock(PasswordEncoder.class);
         TokenManager tokenManager = Mockito.mock(TokenManager.class);
-        TokenMapper tokenMapper = new TokenMapper();
         AuthenticationManager authenticationManager = Mockito.mock(AuthenticationManager.class);
 
         authService = new AuthServiceImpl(
-                cloudUserRepository, tokenRepository,
-                encoder, tokenManager, tokenMapper,
-                authenticationManager);
+                cloudUserRepository, tokenRepository, encoder,
+                tokenManager, authenticationManager, tokenMapper);
     }
 
     @Test

@@ -1,7 +1,6 @@
 package com.workshop.dixie.configuration;
 
 import com.workshop.dixie.mapper.FileMapper;
-import com.workshop.dixie.mapper.TokenMapper;
 import com.workshop.dixie.repository.CloudUserRepository;
 import com.workshop.dixie.security.CloudUserDetails;
 import org.springframework.context.annotation.Bean;
@@ -26,11 +25,6 @@ public class JavaConfig {
     @Bean
     public FileMapper fileMapper() {
         return new FileMapper();
-    }
-
-    @Bean
-    public TokenMapper tokenMapper() {
-        return new TokenMapper();
     }
 
     @Bean
