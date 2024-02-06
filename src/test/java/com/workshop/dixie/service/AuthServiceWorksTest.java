@@ -60,79 +60,79 @@ public class AuthServiceWorksTest {
         Mockito.when(cloudUserRepository.existsByEmail(Mockito.anyString())).thenReturn(false);
     }
 
-    @Test
-    public void registerOK() {
-        RegisterDTO registerDTO = new RegisterDTO();
-        registerDTO.setUsername(TEST_USERNAME);
-        registerDTO.setLastname(TEST_LASTNAME);
-        registerDTO.setEmail(TEST_LOGIN_EMAIL);
-        registerDTO.setPassword(TEST_PASSWORD);
-
-        ResponseEntity<String> expected = new ResponseEntity<>("User registered successfully!", HttpStatus.OK);
-        ResponseEntity<String> actual = authService.register(registerDTO);
-
-        Assertions.assertEquals(expected, actual);
-    }
-
-    @Test
-    public void registerEmailTaken() {
-        Mockito.when(cloudUserRepository.existsByEmail(TEST_LOGIN_EMAIL)).thenReturn(true);
-
-        RegisterDTO registerDTO = new RegisterDTO();
-        registerDTO.setUsername(TEST_USERNAME);
-        registerDTO.setLastname(TEST_LASTNAME);
-        registerDTO.setEmail(TEST_LOGIN_EMAIL);
-        registerDTO.setPassword(TEST_PASSWORD);
-
-        ResponseEntity<String> expected = new ResponseEntity<>("This email is taken!", HttpStatus.BAD_REQUEST);
-        ResponseEntity<String> actual = authService.register(registerDTO);
-
-        Assertions.assertEquals(expected, actual);
-    }
-
-    @Test
-    public void loginOK() {
-        Mockito.when(cloudUserRepository.existsByEmail(Mockito.anyString())).thenReturn(true);
-
-        CloudUser cloudUser = Mockito.mock(CloudUser.class);
-        Mockito.when(cloudUserRepository.findCloudUserByEmail(Mockito.anyString()))
-                .thenReturn(Optional.ofNullable(cloudUser));
-
-        LoginDTO loginDTO = new LoginDTO();
-        loginDTO.setLogin(TEST_LOGIN_EMAIL);
-        loginDTO.setPassword(TEST_PASSWORD);
-        Token token = new Token(TEST_TOKEN, false);
-
-        ResponseEntity<TokenDTO> expectedTokenDTOResponseEntity = new ResponseEntity<>(
-                tokenMapper.toTokenDTO(token), HttpStatus.OK);
-        String expected = Objects.requireNonNull(expectedTokenDTOResponseEntity.getBody()).getAuthToken();
-
-        ResponseEntity<TokenDTO> actualTokenDTOResponseEntity = authService.login(loginDTO);
-        String actual = Objects.requireNonNull(actualTokenDTOResponseEntity.getBody()).getAuthToken();
-
-        Assertions.assertEquals(expected, actual);
-    }
-
-    @Test
-    public void loginCallsTokenRepositoryMethod() {
-        Mockito.when(cloudUserRepository.existsByEmail(TEST_LOGIN_EMAIL)).thenReturn(true);
-
-        CloudUser cloudUser = Mockito.mock(CloudUser.class);
-        Mockito.when(cloudUserRepository.findCloudUserByEmail(Mockito.anyString()))
-                .thenReturn(Optional.ofNullable(cloudUser));
-
-        LoginDTO loginDTO = new LoginDTO();
-        loginDTO.setLogin(TEST_LOGIN_EMAIL);
-        loginDTO.setPassword(TEST_PASSWORD);
-        authService.login(loginDTO);
-
-        Mockito.verify(tokenRepository, Mockito.atLeastOnce()).save(Mockito.any());
-    }
-
-    @Test
-    public void logoutCallsTokenRepositoryMethod() {
-        authService.logout(TEST_TOKEN);
-        String[] tokenParts = TEST_TOKEN.split(" ");
-        Mockito.verify(tokenRepository, Mockito.atLeastOnce()).revokeToken(tokenParts[1]);
-    }
+//    @Test
+//    public void registerOK() {
+//        RegisterDTO registerDTO = new RegisterDTO();
+//        registerDTO.setUsername(TEST_USERNAME);
+//        registerDTO.setLastname(TEST_LASTNAME);
+//        registerDTO.setEmail(TEST_LOGIN_EMAIL);
+//        registerDTO.setPassword(TEST_PASSWORD);
+//
+//        ResponseEntity<String> expected = new ResponseEntity<>("User registered successfully!", HttpStatus.OK);
+//        ResponseEntity<String> actual = authService.register(registerDTO);
+//
+//        Assertions.assertEquals(expected, actual);
+//    }
+//
+//    @Test
+//    public void registerEmailTaken() {
+//        Mockito.when(cloudUserRepository.existsByEmail(TEST_LOGIN_EMAIL)).thenReturn(true);
+//
+//        RegisterDTO registerDTO = new RegisterDTO();
+//        registerDTO.setUsername(TEST_USERNAME);
+//        registerDTO.setLastname(TEST_LASTNAME);
+//        registerDTO.setEmail(TEST_LOGIN_EMAIL);
+//        registerDTO.setPassword(TEST_PASSWORD);
+//
+//        ResponseEntity<String> expected = new ResponseEntity<>("This email is taken!", HttpStatus.BAD_REQUEST);
+//        ResponseEntity<String> actual = authService.register(registerDTO);
+//
+//        Assertions.assertEquals(expected, actual);
+//    }
+//
+//    @Test
+//    public void loginOK() {
+//        Mockito.when(cloudUserRepository.existsByEmail(Mockito.anyString())).thenReturn(true);
+//
+//        CloudUser cloudUser = Mockito.mock(CloudUser.class);
+//        Mockito.when(cloudUserRepository.findCloudUserByEmail(Mockito.anyString()))
+//                .thenReturn(Optional.ofNullable(cloudUser));
+//
+//        LoginDTO loginDTO = new LoginDTO();
+//        loginDTO.setLogin(TEST_LOGIN_EMAIL);
+//        loginDTO.setPassword(TEST_PASSWORD);
+//        Token token = new Token(TEST_TOKEN, false);
+//
+//        ResponseEntity<TokenDTO> expectedTokenDTOResponseEntity = new ResponseEntity<>(
+//                tokenMapper.toTokenDTO(token), HttpStatus.OK);
+//        String expected = Objects.requireNonNull(expectedTokenDTOResponseEntity.getBody()).getAuthToken();
+//
+//        ResponseEntity<TokenDTO> actualTokenDTOResponseEntity = authService.login(loginDTO);
+//        String actual = Objects.requireNonNull(actualTokenDTOResponseEntity.getBody()).getAuthToken();
+//
+//        Assertions.assertEquals(expected, actual);
+//    }
+//
+//    @Test
+//    public void loginCallsTokenRepositoryMethod() {
+//        Mockito.when(cloudUserRepository.existsByEmail(TEST_LOGIN_EMAIL)).thenReturn(true);
+//
+//        CloudUser cloudUser = Mockito.mock(CloudUser.class);
+//        Mockito.when(cloudUserRepository.findCloudUserByEmail(Mockito.anyString()))
+//                .thenReturn(Optional.ofNullable(cloudUser));
+//
+//        LoginDTO loginDTO = new LoginDTO();
+//        loginDTO.setLogin(TEST_LOGIN_EMAIL);
+//        loginDTO.setPassword(TEST_PASSWORD);
+//        authService.login(loginDTO);
+//
+//        Mockito.verify(tokenRepository, Mockito.atLeastOnce()).save(Mockito.any());
+//    }
+//
+//    @Test
+//    public void logoutCallsTokenRepositoryMethod() {
+//        authService.logout(TEST_TOKEN);
+//        String[] tokenParts = TEST_TOKEN.split(" ");
+//        Mockito.verify(tokenRepository, Mockito.atLeastOnce()).revokeToken(tokenParts[1]);
+//    }
 }

@@ -5,6 +5,7 @@ import com.workshop.dixie.dto.RegisterDTO;
 import com.workshop.dixie.dto.TokenDTO;
 import com.workshop.dixie.service.AuthServiceImpl;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -27,8 +28,8 @@ public class AuthController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<String> logout(@RequestHeader(name = "auth-token") String token) {
-        return authService.logout(token);
+    public ResponseEntity<String> logout() {
+        return authService.logout();
     }
 
 }

@@ -7,3 +7,5 @@ databaseChangeLog:
       file: db/changelog/1.0/V1.2__add_new_token_table.sql
   - include:
       file: db/changelog/2.0/V2.0__add_foreign_key.sql
+  - include:
+      file: db/changelog/1.0/V1.3__add_username_to_token_table.sql

@@ -15,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -68,21 +70,20 @@ public class AuthServiceImpl implements AuthService {
         }
 
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                loginDTO.getLogin(), loginDTO.getPassword())
-        );
+                loginDTO.getLogin(), loginDTO.getPassword()));
 
         Optional<CloudUser> cloudUser = cloudUserRepository.findCloudUserByEmail(loginDTO.getLogin());
         CloudUserDetails cloudUserDetails = new CloudUserDetails(cloudUser.get());
-        Token token = new Token(tokenManager.generateToken(cloudUserDetails), false);
+        Token token = new Token(tokenManager.generateToken(cloudUserDetails), false, loginDTO.getLogin());
         tokenRepository.save(token);
 
         return new ResponseEntity<>(tokenMapper.toTokenDTO(token), HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<String> logout(String token) {
-        String[] tokenParts = token.split(" ");
-        Optional<String> response = tokenRepository.revokeToken(tokenParts[1]);
+    public ResponseEntity<String> logout() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Optional<String> response = tokenRepository.revokeToken(authentication.getName());
         return response.map(string -> new ResponseEntity<>(string, HttpStatus.OK)).orElseThrow();
     }
 }

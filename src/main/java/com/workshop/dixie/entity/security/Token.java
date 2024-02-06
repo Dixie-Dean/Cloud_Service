@@ -1,5 +1,6 @@
 package com.workshop.dixie.entity.security;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.*;
@@ -11,7 +12,14 @@ import lombok.*;
 @ToString
 @Entity
 public class Token {
+
     @Id
+    @Column(name = "auth_token")
     private String authToken;
+
+    @Column(name = "revoked")
     private boolean revoked;
+
+    @Column(name = "username")
+    private String user;
 }
