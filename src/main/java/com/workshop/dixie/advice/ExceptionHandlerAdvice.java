@@ -3,6 +3,7 @@ package com.workshop.dixie.advice;
 import com.workshop.dixie.exception.ErrorInputDataException;
 import com.workshop.dixie.exception.InternalServerException;
 import com.workshop.dixie.exception.UnauthorizedException;
+import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -30,6 +31,11 @@ public class ExceptionHandlerAdvice {
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<String> badCredentialsExceptionHandler(BadCredentialsException exception) {
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ExpiredJwtException.class)
+    public ResponseEntity<String> expiredJwtExceptionHandler(ExpiredJwtException exception) {
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.UNAUTHORIZED);
     }
 
 }
