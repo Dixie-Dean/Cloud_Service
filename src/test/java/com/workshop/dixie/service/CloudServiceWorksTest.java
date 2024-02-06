@@ -1,17 +1,12 @@
 package com.workshop.dixie.service;
 
 import com.workshop.dixie.dto.EditFileDTO;
+import com.workshop.dixie.dto.ResponseFileDTO;
 import com.workshop.dixie.entity.CloudUser;
 import com.workshop.dixie.entity.File;
-import com.workshop.dixie.dto.InputFileDTO;
-import com.workshop.dixie.dto.ResponseFileDTO;
-import com.workshop.dixie.exception.ErrorInputDataException;
 import com.workshop.dixie.exception.InternalServerException;
-import com.workshop.dixie.exception.UnauthorizedException;
 import com.workshop.dixie.mapper.FileMapper;
 import com.workshop.dixie.repository.CloudFileRepository;
-import com.workshop.dixie.repository.TokenRepository;
-import com.workshop.dixie.entity.security.Token;
 import com.workshop.dixie.security.TokenManager;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -19,14 +14,12 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 public class CloudServiceWorksTest {
-    private final static String TEST_TOKEN = "Bearer eyJhbGciOiJIUzUxMiJ9";
     private final static String USERNAME = "User";
     private static CloudFileRepository cloudFileRepository;
     private static final FileMapper fileMapper = new FileMapper();
@@ -35,13 +28,8 @@ public class CloudServiceWorksTest {
 
     @BeforeAll
     public static void beforeAll() {
-        Token token = new Token(TEST_TOKEN, false);
-
         CloudUser mockedCloudUser = Mockito.mock(CloudUser.class);
         file = new File(String.valueOf(UUID.randomUUID()), "Test File", "Content", mockedCloudUser);
-
-        TokenRepository tokenRepository = Mockito.mock(TokenRepository.class);
-        Mockito.when(tokenRepository.findToken(Mockito.anyString())).thenReturn(Optional.of(token));
 
         TokenManager tokenManager = Mockito.mock(TokenManager.class);
         Mockito.when(tokenManager.extractEmailFromJwt(Mockito.anyString())).thenReturn(USERNAME);
@@ -63,96 +51,55 @@ public class CloudServiceWorksTest {
         Mockito.when(cloudFileRepository.getAllFiles(Mockito.anyInt(), Mockito.anyString()))
                 .thenReturn(List.of(file));
 
-        cloudService = new CloudServiceImpl(cloudFileRepository, fileMapper, tokenManager);
-    }
-
-    @Test
-    public void uploadOK() throws ErrorInputDataException, InternalServerException, UnauthorizedException {
-        MultipartFile multipartFile = Mockito.mock(MultipartFile.class);
-        InputFileDTO inputFileDTO = new InputFileDTO();
-        inputFileDTO.setHash("Hash");
-        inputFileDTO.setFile(multipartFile);
-
-        ResponseEntity<String> expected = new ResponseEntity<>("File uploaded!", HttpStatus.OK);
-        ResponseEntity<String> actual = cloudService.uploadFile(TEST_TOKEN, file.getFilename(), inputFileDTO);
-
-        Assertions.assertEquals(expected, actual);
-    }
-
-    @Test
-    public void uploadCallsRepositoryMethod() throws ErrorInputDataException, InternalServerException, UnauthorizedException {
-        MultipartFile multipartFile = Mockito.mock(MultipartFile.class);
-        InputFileDTO inputFileDTO = new InputFileDTO();
-        inputFileDTO.setHash("Hash");
-        inputFileDTO.setFile(multipartFile);
-
-        cloudService.uploadFile(TEST_TOKEN, file.getFilename(), inputFileDTO);
-        Mockito.verify(cloudFileRepository, Mockito.atLeastOnce())
-                .uploadFile(Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString());
+        cloudService = new CloudServiceImpl(cloudFileRepository, fileMapper);
     }
 
 
     @Test
-    public void deleteOK() throws InternalServerException, UnauthorizedException {
+    public void deleteOK() throws InternalServerException {
         ResponseEntity<String> expected = new ResponseEntity<>("File deleted!", HttpStatus.OK);
-        ResponseEntity<String> actual = cloudService.deleteFile(TEST_TOKEN, file.getFilename());
+        ResponseEntity<String> actual = cloudService.deleteFile(file.getFilename());
 
         Assertions.assertEquals(expected, actual);
     }
 
     @Test
-    public void deleteCallsRepositoryMethod() throws InternalServerException, UnauthorizedException {
-        cloudService.deleteFile(TEST_TOKEN, file.getFilename());
+    public void deleteCallsRepositoryMethod() throws InternalServerException {
+        cloudService.deleteFile(file.getFilename());
         Mockito.verify(cloudFileRepository, Mockito.atLeastOnce()).deleteFile(file.getFilename());
     }
 
     @Test
-    public void downloadOK() throws InternalServerException, UnauthorizedException {
+    public void downloadOK() throws InternalServerException {
         ResponseEntity<ResponseFileDTO> expected = new ResponseEntity<>(fileMapper.toResponseDTO(file), HttpStatus.OK);
-        ResponseEntity<ResponseFileDTO> actual = cloudService.downloadFile(TEST_TOKEN, file.getFilename());
+        ResponseEntity<ResponseFileDTO> actual = cloudService.downloadFile(file.getFilename());
 
         Assertions.assertEquals(expected.getStatusCode(), actual.getStatusCode());
     }
 
     @Test
-    public void downloadCallsRepositoryMethod() throws InternalServerException, UnauthorizedException {
-        cloudService.downloadFile(TEST_TOKEN, file.getFilename());
+    public void downloadCallsRepositoryMethod() throws InternalServerException {
+        cloudService.downloadFile(file.getFilename());
         Mockito.verify(cloudFileRepository, Mockito.atLeastOnce()).downloadFile(file.getFilename());
     }
 
     @Test
-    public void editOK() throws InternalServerException, UnauthorizedException {
+    public void editOK() throws InternalServerException {
         EditFileDTO editFileDTO = new EditFileDTO();
         editFileDTO.setName("RENAMED");
 
         ResponseEntity<String> expected = new ResponseEntity<>("Filename edited!", HttpStatus.OK);
-        ResponseEntity<String> actual = cloudService.editFileName(TEST_TOKEN, file.getFile(), editFileDTO);
+        ResponseEntity<String> actual = cloudService.editFileName(file.getFile(), editFileDTO);
 
         Assertions.assertEquals(expected, actual);
     }
 
     @Test
-    public void editFileTitleCallRepositoryMethod() throws InternalServerException, UnauthorizedException {
+    public void editFileTitleCallRepositoryMethod() throws InternalServerException {
         EditFileDTO editFileDTO = new EditFileDTO();
         editFileDTO.setName("RENAMED");
 
-        cloudService.editFileName(TEST_TOKEN, file.getFilename(), editFileDTO);
+        cloudService.editFileName(file.getFilename(), editFileDTO);
         Mockito.verify(cloudFileRepository, Mockito.atLeastOnce()).editFileName(file.getFilename(), editFileDTO.getName());
-    }
-
-    @Test
-    public void getAllFilesOK() throws ErrorInputDataException, UnauthorizedException {
-        List<ResponseFileDTO> givenList = List.of(fileMapper.toResponseDTO(file));
-        String expected = givenList.get(0).getFilename();
-        List<ResponseFileDTO> responseList = cloudService.getAllFiles(TEST_TOKEN, 1);
-        String actual = responseList.get(0).getFilename();
-
-        Assertions.assertEquals(expected, actual);
-    }
-
-    @Test
-    public void getAllFilesCallRepositoryMethod() throws ErrorInputDataException, UnauthorizedException {
-        cloudService.getAllFiles(TEST_TOKEN, 1);
-        Mockito.verify(cloudFileRepository, Mockito.atLeastOnce()).getAllFiles(1, USERNAME);
     }
 }

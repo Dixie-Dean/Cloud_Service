@@ -1,9 +1,9 @@
 package com.workshop.dixie.service;
 
 import com.workshop.dixie.dto.EditFileDTO;
+import com.workshop.dixie.dto.InputFileDTO;
 import com.workshop.dixie.entity.CloudUser;
 import com.workshop.dixie.entity.File;
-import com.workshop.dixie.dto.InputFileDTO;
 import com.workshop.dixie.exception.ErrorInputDataException;
 import com.workshop.dixie.exception.InternalServerException;
 import com.workshop.dixie.exception.UnauthorizedException;
@@ -46,25 +46,12 @@ public class CloudServiceThrowsTest {
                 .thenReturn(Optional.empty());
 
         FileMapper fileMapper = new FileMapper();
-        cloudService = new CloudServiceImpl(cloudFileRepository, fileMapper, tokenManager);
+        cloudService = new CloudServiceImpl(cloudFileRepository, fileMapper);
     }
 
     @AfterEach
     public void afterEach() {
         Mockito.when(tokenManager.validateToken(TEST_TOKEN)).thenReturn(false);
-    }
-
-    @Test
-    public void uploadThrowsUnauthorizedException() {
-        Mockito.when(tokenManager.validateToken(TEST_TOKEN)).thenReturn(true);
-
-        MultipartFile multipartFile = Mockito.mock(MultipartFile.class);
-        InputFileDTO inputFileDTO = new InputFileDTO();
-        inputFileDTO.setHash("Hash");
-        inputFileDTO.setFile(multipartFile);
-
-        Executable executable = () -> cloudService.uploadFile(TEST_TOKEN, file.getFilename(), inputFileDTO);
-        Assertions.assertThrows(UnauthorizedException.class, executable);
     }
 
     @Test
@@ -76,58 +63,20 @@ public class CloudServiceThrowsTest {
         inputFileDTO.setHash("Hash");
         inputFileDTO.setFile(multipartFile);
 
-        Executable executable = () -> cloudService.uploadFile(TEST_TOKEN, file.getFilename(), inputFileDTO);
+        Executable executable = () -> cloudService.uploadFile(file.getFilename(), inputFileDTO);
         Assertions.assertThrows(ErrorInputDataException.class, executable);
     }
 
     @Test
-    public void uploadThrowsInternalServerException() {
-        MultipartFile multipartFile = Mockito.mock(MultipartFile.class);
-        InputFileDTO inputFileDTO = new InputFileDTO();
-        inputFileDTO.setHash("Hash");
-        inputFileDTO.setFile(multipartFile);
-
-        Executable executable = () -> cloudService.uploadFile(TEST_TOKEN, file.getFilename(), inputFileDTO);
-        Assertions.assertThrows(InternalServerException.class, executable);
-    }
-
-    @Test
-    public void deleteThrowsUnauthorizedException() {
-        Mockito.when(tokenManager.validateToken(TEST_TOKEN)).thenReturn(true);
-
-        Executable executable = () -> cloudService.deleteFile(TEST_TOKEN, file.getFilename());
-        Assertions.assertThrows(UnauthorizedException.class, executable);
-    }
-
-    @Test
     public void deleteThrowsInternalServerException() {
-        Executable executable = () -> cloudService.deleteFile(TEST_TOKEN, file.getFilename());
+        Executable executable = () -> cloudService.deleteFile(file.getFilename());
         Assertions.assertThrows(InternalServerException.class, executable);
-    }
-
-    @Test
-    public void downloadThrowsUnauthorizedException() {
-        Mockito.when(tokenManager.validateToken(TEST_TOKEN)).thenReturn(true);
-
-        Executable executable = () -> cloudService.downloadFile(TEST_TOKEN, file.getFilename());
-        Assertions.assertThrows(UnauthorizedException.class, executable);
     }
 
     @Test
     public void downloadThrowsInternalServerException() {
-        Executable executable = () -> cloudService.downloadFile(TEST_TOKEN, file.getFilename());
+        Executable executable = () -> cloudService.downloadFile(file.getFilename());
         Assertions.assertThrows(InternalServerException.class, executable);
-    }
-
-    @Test
-    public void editThrowsUnauthorizedException() {
-        Mockito.when(tokenManager.validateToken(TEST_TOKEN)).thenReturn(true);
-
-        EditFileDTO editFileDTO = new EditFileDTO();
-        editFileDTO.setName("RENAMED");
-
-        Executable executable = () -> cloudService.editFileName(TEST_TOKEN, file.getFilename(), editFileDTO);
-        Assertions.assertThrows(UnauthorizedException.class, executable);
     }
 
     @Test
@@ -135,21 +84,13 @@ public class CloudServiceThrowsTest {
         EditFileDTO editFileDTO = new EditFileDTO();
         editFileDTO.setName("RENAMED");
 
-        Executable executable = () -> cloudService.editFileName(TEST_TOKEN, file.getFilename(), editFileDTO);
+        Executable executable = () -> cloudService.editFileName(file.getFilename(), editFileDTO);
         Assertions.assertThrows(InternalServerException.class, executable);
     }
 
     @Test
-    public void getAllThrowsUnauthorizedException() {
-        Mockito.when(tokenManager.validateToken(TEST_TOKEN)).thenReturn(true);
-
-        Executable executable = () -> cloudService.getAllFiles(TEST_TOKEN, 1);
-        Assertions.assertThrows(UnauthorizedException.class, executable);
-    }
-
-    @Test
     public void getAllThrowsErrorInputDataException() {
-        Executable executable = () -> cloudService.getAllFiles(TEST_TOKEN, -1);
+        Executable executable = () -> cloudService.getAllFiles(-1);
         Assertions.assertThrows(ErrorInputDataException.class, executable);
     }
 }
