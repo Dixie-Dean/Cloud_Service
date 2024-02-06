@@ -22,39 +22,32 @@ public class CloudController {
     }
 
     @PostMapping("/file")
-    public ResponseEntity<String> uploadFile(@RequestHeader(name = "auth-token") String token,
-                                             @RequestParam String filename,
-                                             @ModelAttribute InputFileDTO file)
+    public ResponseEntity<String> uploadFile(@RequestParam String filename, @ModelAttribute InputFileDTO file)
             throws ErrorInputDataException, InternalServerException, UnauthorizedException {
-        return cloudService.uploadFile(token, filename, file);
+        return cloudService.uploadFile(filename, file);
     }
 
     @DeleteMapping("/file")
-    public ResponseEntity<String> deleteFile(@RequestHeader(name = "auth-token") String token,
-                                             @RequestParam String filename)
+    public ResponseEntity<String> deleteFile(@RequestParam String filename)
             throws InternalServerException, UnauthorizedException {
-        return cloudService.deleteFile(token, filename);
+        return cloudService.deleteFile(filename);
     }
 
     @GetMapping("/file")
-    public ResponseEntity<ResponseFileDTO> downloadFile(@RequestHeader(name = "auth-token") String token,
-                                                        @RequestParam String filename)
+    public ResponseEntity<ResponseFileDTO> downloadFile(@RequestParam String filename)
             throws InternalServerException, UnauthorizedException {
-        return cloudService.downloadFile(token, filename);
+        return cloudService.downloadFile(filename);
     }
 
     @PutMapping("/file")
-    public ResponseEntity<String> editFileName(@RequestHeader(name = "auth-token") String token,
-                                               @RequestParam String filename,
-                                               @RequestBody EditFileDTO editFileDTO)
+    public ResponseEntity<String> editFileName(@RequestParam String filename, @RequestBody EditFileDTO editFileDTO)
             throws InternalServerException, UnauthorizedException {
-        return cloudService.editFileName(token, filename, editFileDTO);
+        return cloudService.editFileName(filename, editFileDTO);
     }
 
     @GetMapping("/list")
-    public List<ResponseFileDTO> getAllFiles(@RequestHeader(name = "auth-token") String token,
-                                             @RequestParam int limit)
+    public List<ResponseFileDTO> getAllFiles(@RequestParam int limit)
             throws UnauthorizedException, ErrorInputDataException, InternalServerException {
-        return cloudService.getAllFiles(token, limit);
+        return cloudService.getAllFiles(limit);
     }
 }
