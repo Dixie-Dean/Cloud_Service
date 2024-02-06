@@ -21,9 +21,18 @@
 
 
 ## About the Project
-The main purpose of creating the Cloud Service project was to study java frameworks and libraries.
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+A demo project showcasing the process of adding, updating and deleting user files in a cloud. 
 
+The app uses PostgreSQL database to store files, tokens, users and details about them.
+
+Key features:
+* CRUD operations
+* JWT authentication
+* Users' registartion
+* Test coverage using mockito
+* Built with SOLID, DRY in mind
+* Run via docker-compose
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 ### Built With
