@@ -17,9 +17,6 @@ public class Token {
     @Column(name = "auth_token")
     private String authToken;
 
-    @Column(name = "revoked")
-    private boolean revoked;
-
     @Column(name = "username")
     private String user;
 }

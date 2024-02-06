@@ -39,7 +39,7 @@ public class AuthServiceWorksTest {
         Mockito.when(cloudUserRepository.existsByEmail(Mockito.anyString())).thenReturn(false);
 
         tokenRepository = Mockito.mock(TokenRepository.class);
-        Mockito.when(tokenRepository.revokeToken(Mockito.anyString())).thenReturn(Optional.of("Success logout!"));
+        Mockito.when(tokenRepository.removeToken(Mockito.anyString())).thenReturn(Optional.of("Success logout!"));
 
         PasswordEncoder encoder = Mockito.mock(PasswordEncoder.class);
 
@@ -101,7 +101,7 @@ public class AuthServiceWorksTest {
         LoginDTO loginDTO = new LoginDTO();
         loginDTO.setLogin(TEST_LOGIN_EMAIL);
         loginDTO.setPassword(TEST_PASSWORD);
-        Token token = new Token(TEST_TOKEN, false, TEST_USERNAME);
+        Token token = new Token(TEST_TOKEN, TEST_USERNAME);
 
         ResponseEntity<TokenDTO> expectedTokenDTOResponseEntity = new ResponseEntity<>(
                 tokenMapper.toTokenDTO(token), HttpStatus.OK);

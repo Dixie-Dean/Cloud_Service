@@ -12,7 +12,6 @@ public class TokenMapper {
 
         TokenDTO destination = new TokenDTO();
         destination.setAuthToken(source.getAuthToken());
-        destination.setRevoked(source.isRevoked());
 
         return destination;
     }

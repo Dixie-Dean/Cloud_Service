@@ -11,5 +11,4 @@ import lombok.ToString;
 public class TokenDTO {
     @JsonProperty("auth-token")
     private String authToken;
-    private boolean revoked;
 }

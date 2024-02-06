@@ -74,7 +74,7 @@ public class AuthServiceImpl implements AuthService {
 
         Optional<CloudUser> cloudUser = cloudUserRepository.findCloudUserByEmail(loginDTO.getLogin());
         CloudUserDetails cloudUserDetails = new CloudUserDetails(cloudUser.get());
-        Token token = new Token(tokenManager.generateToken(cloudUserDetails), false, loginDTO.getLogin());
+        Token token = new Token(tokenManager.generateToken(cloudUserDetails), loginDTO.getLogin());
         tokenRepository.save(token);
 
         return new ResponseEntity<>(tokenMapper.toTokenDTO(token), HttpStatus.OK);
@@ -83,7 +83,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public ResponseEntity<String> logout() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Optional<String> response = tokenRepository.revokeToken(authentication.getName());
+        Optional<String> response = tokenRepository.removeToken(authentication.getName());
         return response.map(string -> new ResponseEntity<>(string, HttpStatus.OK)).orElseThrow();
     }
 }
