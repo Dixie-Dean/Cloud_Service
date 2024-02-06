@@ -5,7 +5,6 @@ import com.workshop.dixie.dto.InputFileDTO;
 import com.workshop.dixie.dto.ResponseFileDTO;
 import com.workshop.dixie.exception.ErrorInputDataException;
 import com.workshop.dixie.exception.InternalServerException;
-import com.workshop.dixie.exception.UnauthorizedException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 

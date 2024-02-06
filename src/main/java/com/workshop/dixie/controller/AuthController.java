@@ -5,8 +5,10 @@ import com.workshop.dixie.dto.RegisterDTO;
 import com.workshop.dixie.dto.TokenDTO;
 import com.workshop.dixie.service.AuthServiceImpl;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/cloud")

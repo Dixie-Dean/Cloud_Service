@@ -5,7 +5,6 @@ import com.workshop.dixie.dto.InputFileDTO;
 import com.workshop.dixie.dto.ResponseFileDTO;
 import com.workshop.dixie.exception.ErrorInputDataException;
 import com.workshop.dixie.exception.InternalServerException;
-import com.workshop.dixie.exception.UnauthorizedException;
 import com.workshop.dixie.service.CloudService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
