@@ -1,19 +1,17 @@
-## About the Project
+## About the Project ##
 A demo project showcasing the process of adding, updating and deleting user files in a cloud storage. 
 
 The app uses PostgreSQL database to store files, tokens, users and details about them.
 
-Key features:
+### Key features: ###
 * CRUD operations
 * JWT authentication
 * Users' registartion
 * Test coverage using mockito
 * Built with SOLID, DRY in mind
 * Run via docker-compose
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-### Built With
+### Built With ###
 * [Spring Boot](https://spring.io/projects/spring-boot/)
 * [Spring Security](https://spring.io/projects/spring-security/)
 * [Maven](https://maven.apache.org/)
@@ -22,17 +20,13 @@ Key features:
 * [Docker](https://www.docker.com/)
 * [Vue](https://vuejs.org/)
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-### Prerequisites
+### Prerequisites ###
 * npm
   ```sh
   npm install -g npm@9.6.3
   ```
 
-### Installation
+### Installation ###
 
 1. Download [FRONT](https://github.com/netology-code/jd-homeworks/tree/master/diploma/netology-diplom-frontend).
 2. Install NPM packages.
