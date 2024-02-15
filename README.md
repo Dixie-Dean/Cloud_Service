@@ -1,5 +1,5 @@
 ## About the Project
-A demo project showcasing the process of adding, updating and deleting user files in a cloud. 
+A demo project showcasing the process of adding, updating and deleting user files in a cloud storage. 
 
 The app uses PostgreSQL database to store files, tokens, users and details about them.
 
