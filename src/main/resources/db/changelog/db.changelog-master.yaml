@@ -11,3 +11,5 @@ databaseChangeLog:
       file: db/changelog/tokens/Tokens_V2__add_username_to_token_table.sql
   - include:
       file: db/changelog/tokens/Tokens_V3__remove_revoke_column.sql
+  - include:
+      file: db/changelog/tokens/Tokens_V3__varchar_to_text.sql
