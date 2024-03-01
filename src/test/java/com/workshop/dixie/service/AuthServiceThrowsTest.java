@@ -1,16 +1,17 @@
 package com.workshop.dixie.service;
 
-import com.workshop.dixie.dto.LoginDTO;
+import com.workshop.dixie.security.authentication.model.dto.LoginDTO;
 import com.workshop.dixie.mapper.TokenMapper;
-import com.workshop.dixie.repository.CloudUserRepository;
-import com.workshop.dixie.repository.TokenRepository;
-import com.workshop.dixie.security.JwtManager;
+import com.workshop.dixie.security.authentication.repository.CloudUserRepository;
+import com.workshop.dixie.security.authentication.repository.TokenRepository;
+import com.workshop.dixie.security.authentication.service.AuthService;
+import com.workshop.dixie.security.authentication.service.implementation.AuthServiceImpl;
+import com.workshop.dixie.security.jwt.JwtManager;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mockito;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;

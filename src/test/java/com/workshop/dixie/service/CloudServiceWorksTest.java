@@ -1,13 +1,14 @@
 package com.workshop.dixie.service;
 
-import com.workshop.dixie.dto.EditFileDTO;
-import com.workshop.dixie.dto.ResponseFileDTO;
-import com.workshop.dixie.entity.CloudUser;
-import com.workshop.dixie.entity.File;
+import com.workshop.dixie.application.service.implementation.CloudServiceImpl;
+import com.workshop.dixie.application.model.dto.EditFileDTO;
+import com.workshop.dixie.application.model.dto.ResponseFileDTO;
+import com.workshop.dixie.security.authentication.model.entity.CloudUser;
+import com.workshop.dixie.application.model.entity.File;
 import com.workshop.dixie.exception.InternalServerException;
 import com.workshop.dixie.mapper.FileMapper;
-import com.workshop.dixie.repository.CloudFileRepository;
-import com.workshop.dixie.security.JwtManager;
+import com.workshop.dixie.application.repository.CloudFileRepository;
+import com.workshop.dixie.security.jwt.JwtManager;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

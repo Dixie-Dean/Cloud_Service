@@ -1,14 +1,16 @@
 package com.workshop.dixie.service;
 
-import com.workshop.dixie.dto.LoginDTO;
-import com.workshop.dixie.dto.RegisterDTO;
-import com.workshop.dixie.dto.TokenDTO;
-import com.workshop.dixie.entity.CloudUser;
-import com.workshop.dixie.entity.security.Token;
+import com.workshop.dixie.security.authentication.model.dto.LoginDTO;
+import com.workshop.dixie.security.authentication.model.dto.RegisterDTO;
+import com.workshop.dixie.security.authentication.model.dto.TokenDTO;
+import com.workshop.dixie.security.authentication.model.entity.CloudUser;
+import com.workshop.dixie.security.authentication.model.entity.Token;
 import com.workshop.dixie.mapper.TokenMapper;
-import com.workshop.dixie.repository.CloudUserRepository;
-import com.workshop.dixie.repository.TokenRepository;
-import com.workshop.dixie.security.JwtManager;
+import com.workshop.dixie.security.authentication.repository.CloudUserRepository;
+import com.workshop.dixie.security.authentication.repository.TokenRepository;
+import com.workshop.dixie.security.authentication.service.AuthService;
+import com.workshop.dixie.security.authentication.service.implementation.AuthServiceImpl;
+import com.workshop.dixie.security.jwt.JwtManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -16,7 +18,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
