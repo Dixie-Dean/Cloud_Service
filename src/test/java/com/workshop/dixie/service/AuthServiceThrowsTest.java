@@ -4,13 +4,14 @@ import com.workshop.dixie.dto.LoginDTO;
 import com.workshop.dixie.mapper.TokenMapper;
 import com.workshop.dixie.repository.CloudUserRepository;
 import com.workshop.dixie.repository.TokenRepository;
-import com.workshop.dixie.security.TokenManager;
+import com.workshop.dixie.security.JwtManager;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mockito;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -27,12 +28,12 @@ public class AuthServiceThrowsTest {
 
         TokenRepository tokenRepository = Mockito.mock(TokenRepository.class);
         PasswordEncoder encoder = Mockito.mock(PasswordEncoder.class);
-        TokenManager tokenManager = Mockito.mock(TokenManager.class);
-        AuthenticationManager authenticationManager = Mockito.mock(AuthenticationManager.class);
+        JwtManager jwtManager = Mockito.mock(JwtManager.class);
+        AuthenticationProvider authenticationProvider = Mockito.mock(AuthenticationProvider.class);
 
         authService = new AuthServiceImpl(
                 cloudUserRepository, tokenRepository, encoder,
-                tokenManager, authenticationManager, tokenMapper);
+                jwtManager, authenticationProvider, tokenMapper);
     }
 
     @Test

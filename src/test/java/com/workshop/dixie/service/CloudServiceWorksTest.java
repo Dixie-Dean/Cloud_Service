@@ -7,7 +7,7 @@ import com.workshop.dixie.entity.File;
 import com.workshop.dixie.exception.InternalServerException;
 import com.workshop.dixie.mapper.FileMapper;
 import com.workshop.dixie.repository.CloudFileRepository;
-import com.workshop.dixie.security.TokenManager;
+import com.workshop.dixie.security.JwtManager;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -31,8 +31,8 @@ public class CloudServiceWorksTest {
         CloudUser mockedCloudUser = Mockito.mock(CloudUser.class);
         file = new File(String.valueOf(UUID.randomUUID()), "Test File", "Content", mockedCloudUser);
 
-        TokenManager tokenManager = Mockito.mock(TokenManager.class);
-        Mockito.when(tokenManager.extractEmailFromJwt(Mockito.anyString())).thenReturn(USERNAME);
+        JwtManager jwtManager = Mockito.mock(JwtManager.class);
+        Mockito.when(jwtManager.extractEmailFromJwt(Mockito.anyString())).thenReturn(USERNAME);
 
         cloudFileRepository = Mockito.mock(CloudFileRepository.class);
         Mockito.when(cloudFileRepository.uploadFile(

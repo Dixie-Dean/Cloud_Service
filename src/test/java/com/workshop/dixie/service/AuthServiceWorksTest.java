@@ -8,7 +8,7 @@ import com.workshop.dixie.entity.security.Token;
 import com.workshop.dixie.mapper.TokenMapper;
 import com.workshop.dixie.repository.CloudUserRepository;
 import com.workshop.dixie.repository.TokenRepository;
-import com.workshop.dixie.security.TokenManager;
+import com.workshop.dixie.security.JwtManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -17,6 +17,7 @@ import org.mockito.Mockito;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Objects;
@@ -43,14 +44,14 @@ public class AuthServiceWorksTest {
 
         PasswordEncoder encoder = Mockito.mock(PasswordEncoder.class);
 
-        TokenManager tokenManager = Mockito.mock(TokenManager.class);
-        Mockito.when(tokenManager.generateToken(Mockito.any())).thenReturn(TEST_TOKEN);
+        JwtManager jwtManager = Mockito.mock(JwtManager.class);
+        Mockito.when(jwtManager.generateToken(Mockito.any())).thenReturn(TEST_TOKEN);
 
-        AuthenticationManager authenticationManager = Mockito.mock(AuthenticationManager.class);
+        AuthenticationProvider authenticationProvider = Mockito.mock(AuthenticationProvider.class);
 
         authService = new AuthServiceImpl(
                 cloudUserRepository, tokenRepository, encoder,
-                tokenManager, authenticationManager, tokenMapper);
+                jwtManager, authenticationProvider, tokenMapper);
     }
 
     @AfterEach
