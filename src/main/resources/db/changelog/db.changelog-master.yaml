@@ -1,13 +1,13 @@
 databaseChangeLog:
   - include:
-      file: db/changelog/1.0/V1.0__add_new_files_table.sql
+      file: db/changelog/files/Files_V1__add_new_files_table.sql
   - include:
-      file: db/changelog/1.0/V1.1__add_new_users_table.sql
+      file: db/changelog/users/Users_V1__add_new_users_table.sql
   - include:
-      file: db/changelog/1.0/V1.2__add_new_token_table.sql
+      file: db/changelog/tokens/Tokens_V1__add_new_token_table.sql
   - include:
-      file: db/changelog/2.0/V2.0__add_foreign_key.sql
+      file: db/changelog/files/Files_V2__add_foreign_key.sql
   - include:
-      file: db/changelog/1.0/V1.3__add_username_to_token_table.sql
+      file: db/changelog/tokens/Tokens_V2__add_username_to_token_table.sql
   - include:
-      file: db/changelog/2.0/V2.1__remove_revoke_column.sql
+      file: db/changelog/tokens/Tokens_V3__remove_revoke_column.sql
